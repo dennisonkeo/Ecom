@@ -229,14 +229,6 @@
       </ul>
     </li>
 
-    <li class="nav-item dropdown">
-                              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Products</a>
-                              <div class="dropdown-menu">
-                                  <a href="{{route('vendor.product.manage')}}" class="dropdown-item">Manage Products</a>
-                                  <a href="{{route('vendor.product.create')}}" class="dropdown-item">Upload Product</a>
-                              </div>
-                          </li>
-
 
     <li class="treeview
     @if(request()->path() == 'admin/withdrawLog')
