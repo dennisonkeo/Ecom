@@ -7,7 +7,7 @@
                     <div class="footer-widget about">
                         <div class="widget-body">
                             <a href="{{route('user.home')}}" class="footer-logo">
-                                <img src="{{asset('assets/user/interfaceControl/logoIcon/footer_logo.jpg')}}" alt="footer-logo">
+                                <img src="{{asset('assets/user/interfaceControl/logoIcon/SKINN.png')}}" alt="footer-logo">
                             </a>
                             <ul class="contact-info-list">
                                 <li>

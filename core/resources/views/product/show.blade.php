@@ -164,11 +164,15 @@
                               <ul class="nav nav-tabs" role="tablist">
                                   <li class="nav-item">
                                     <a class="nav-link {{session('success')=='Reviewed successfully'?'':'active'}}" id="descr-tab" data-toggle="tab" href="#descr" role="tab" aria-controls="descr" aria-selected="false">descriptions</a>
-                                  </li>
+                                  </li> 
+
                                   <li class="nav-item">
-                                    <a class="nav-link {{session('success')=='Reviewed successfully'?'active':''}}" id="item-review-tab" data-toggle="tab" href="#item_review" role="tab" aria-controls="item_review" aria-selected="true">item review</a>
+                                    <a class="nav-link" id="item-review-tab" data-toggle="tab" href="#item_review" role="tab" aria-controls="item_review" aria-selected="true">how to use</a>
                                   </li>
-                                  @auth
+                                  {{-- <li class="nav-item">
+                                    <a class="nav-link " id="item-review-tab" data-toggle="tab" href="#item_review" role="tab" aria-controls="item_review" aria-selected="true">how to use</a>
+                                  </li> --}}
+                                  {{-- @auth
                                     @if (\App\ProductReview::where('user_id', Auth::user()->id)->where('product_id', $product->id)->count() == 0)
                                       @if (\App\Orderedproduct::where('user_id', Auth::user()->id)->where('product_id', $product->id)->where('shipping_status', 2)->count() > 0)
                                         <li class="nav-item">
@@ -176,9 +180,9 @@
                                         </li>
                                       @endif
                                     @endif
-                                  @endauth
+                                  @endauth --}}
                                   <li class="nav-item">
-                                    <a class="nav-link" id="item-review-tab" data-toggle="tab" href="#vendor_info" role="tab" aria-controls="item_review" aria-selected="true">Vendor Information</a>
+                                    <a class="nav-link" id="item-review-tab" data-toggle="tab" href="#vendor_info" role="tab" aria-controls="item_review" aria-selected="true">Shipping & Return</a>
                                   </li>
                               </ul>
                           </div>
@@ -188,7 +192,7 @@
                                       @includeif('product.partials.description')
                                   </div>
                               </div>
-                              <div class="tab-pane fade {{session('success')=='Reviewed successfully'?'show active':''}}" id="item_review" role="tabpanel" aria-labelledby="item-review-tab">
+                              <div class="tab-pane fade " id="item_review" role="tabpanel" aria-labelledby="item-review-tab">
                                 <div class="descr-tab-content">
                                     @includeif('product.partials.comments')
                                 </div>

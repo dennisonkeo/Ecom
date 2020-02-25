@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <div class="left-content">
                         <a href="{{route('user.home')}}" class="logo main-logo">
-                            <img src="{{asset('assets/user/interfaceControl/logoIcon/logo.jpg')}}" alt="logo">
+                            <img src="{{asset('assets/user/interfaceControl/logoIcon/SKINN.png')}}" alt="logo">
                         </a>
                     </div>
                     <div class="right-content">

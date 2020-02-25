@@ -1,59 +1,97 @@
-<div class="comments">
-  @if ($product->productreviews()->count() == 0)
+<div class="row">
+  <div class="col-md-12">
     <div class="card">
+      <div class="card-header base-bg">
+        <h4 class="title no-margin white-txt">How To Use</h4>
+      </div>
       <div class="card-body">
-        <h3 class="text-center base-txt">No Review Given Yet</h3>
-      </div>
-    </div>
-
-  @else
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2 class="mt-2" style="color:#f0932b">{{round(\App\ProductReview::where('product_id', $product->id)->avg('rating'), 2)}}/5.0</h2>
-        Based on {{\App\ProductReview::where('product_id', $product->id)->count()}} reviews
-      </div>
-    </div>
-
-    <div id="comments">
-      @foreach ($product->productreviews()->orderBy('id', 'DESC')->get() as $productreview)
-        <div class="comment-wrap">
-           <div class="comment-block">
-              <h4>{{$productreview->user->username}}</h4>
-              <p class="comment-text">
-                {{$productreview->comment}}
-              </p>
-              <div class="bottom-comment">
-                 <div class="comment-date">{{date('M d, Y @ g:i A', strtotime($productreview->created_at))}}</div>
-                 <ul class="comment-actions">
-                    <div id="rateYo{{$productreview->id}}"></div>
-                 </ul>
-              </div>
-           </div>
+        <div class="row">
+          <div class="col-md-12">
+            {!!$product->how_to!!}
+          </div>
         </div>
 
-      @endforeach
+        {{-- <div class="card bg-light py-3 px-3">
+           <div class="row">
+             <div class="col-md-4 text-center">
+                 <div class="card">
+                     <div class="card-header base-bg">
+                       <h4 class="text-white mb-0">
+                         <i class="fa fa-map-marker"></i>
+                         In {{$gs->main_city}} delivery charge
+                       </h4> 
+                     </div>
+                     <div class="card-body text-left">
+                       <ul>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> Cash on delivery charge - <strong>{{$gs->in_cash_on_delivery}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> If you pay advance then delivery charge - <strong>{{$gs->in_advanced}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                       </ul> 
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-4 text-center">
+                 <div class="card">
+                     <div class="card-header base-bg">
+                       <h4 class="text-white mb-0">
+                         <i class="fa fa-map-marker"></i>
+                         Around {{$gs->main_city}} delivery charge
+                       </h4> 
+                     </div>
+                     <div class="card-body text-left">
+                       <ul>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> Cash on delivery charge - <strong>{{$gs->around_cash_on_delivery}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> If you pay advance then delivery charge - <strong>{{$gs->around_advanced}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                       </ul> 
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-4 text-center">
+                 <div class="card">
+                     <div class="card-header base-bg">
+                       <h4 class="text-white mb-0">
+                         <i class="fa fa-map-marker"></i>
+                         Other Places
+                       </h4> 
+                     </div>
+                     <div class="card-body text-left">
+                       <ul>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> Cash on delivery charge - <strong>{{$gs->world_cash_on_delivery}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                         <li>
+                           <i class="fa fa-check-circle base-txt"></i> If you pay advance then delivery charge - <strong>{{$gs->world_advanced}} {{$gs->base_curr_text}}</strong>
+                         </li>
+                       </ul>
 
+                     </div>
+                 </div> 
+                 
+             </div>
+           </div>
+        </div> --}}
+
+{{--         <div class="row refund_policy">
+            <div class="col-md-12">
+                <h3 class="base-txt"><i class="fa fa-check-circle"></i> Refund Policy</h3>
+                <div class="">{!! $gs->refund_policy !!}</div>
+            </div>
+        </div>
+
+        <div class="row replacement_policy">
+            <div class="col-md-12">
+                <h3 class="base-txt"><i class="fa fa-check-circle"></i> Replacement Policy</h3>
+                <div class="">{!! $gs->replacement_policy !!}</div>
+            </div>
+        </div> --}}
+      </div>
     </div>
-
-
-  @endif
-
+  </div>
 </div>
-
-@push('scripts')
-<script>
-  $(document).ready(function() {
-    $.get("{{route('user.productratings', $product->id)}}", function(data){
-      console.log(data);
-      for (var i = 0; i < data.length; i++) {
-        $("#rateYo"+data[i].id).rateYo({
-          rating: data[i].rating,
-          readOnly: true,
-          starWidth: "16px"
-        });
-      }
-
-    });
-  });
-</script>
-@endpush
