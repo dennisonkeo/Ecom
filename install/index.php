@@ -220,7 +220,7 @@
   <div class="installer-content">
   <?php
   if ($_POST) {
-  $user = 'root';
+  $user = $_POST['user'];
   // $code = $_POST['code'];
   $db_name = 'database';
   $db_host = 'localhost';
@@ -232,7 +232,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-// curl_setopt($ch, CURLOPT_URL, $api);
+curl_setopt($ch, CURLOPT_URL, $api);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);       
 $ac = curl_exec($ch);
 curl_close($ch);
@@ -269,7 +269,6 @@ $status = json_decode($ac);
   SESSION_DRIVER=file
   SESSION_LIFETIME=120
   QUEUE_DRIVER=sync
-
   ';
 
   $file = fopen('../core/.env', 'w');
@@ -303,7 +302,7 @@ $status = json_decode($ac);
   <input class="form-control input-lg" name="db_name" placeholder="Database Name" type="text" required=""><br>
   <input class="form-control input-lg" name="db_host" placeholder="Database Host" type="text" required=""><br>
   <input class="form-control input-lg" name="db_user" placeholder="Database User" type="text" required=""><br>
-  <input class="form-control input-lg" name="db_pass" placeholder="Password" type="text" ><br>
+  <input class="form-control input-lg" name="db_pass" placeholder="Password" type="text" required=""><br>
   <button class="btn btn-primary" type="submit">INSTALL NOW</button>
   </form>
   </div>

@@ -118,15 +118,21 @@ class ProductController extends Controller
         'description' => [
           'required',
         ],
-        'offer_amount' => [
-          'required_if:offer,1',
+        'ship' => [
+          'required',
         ],
-        'flash_amount' => [
-          'required_if:flash_sale,1',
+        'how_to' => [
+          'required',
         ],
-        'flash_date' => [
-          'required_if:flash_sale,1',
-        ]
+        // 'offer_amount' => [
+        //   'required_if:offer,1',
+        // ],
+        // 'flash_amount' => [
+        //   'required_if:flash_sale,1',
+        // ],
+        // 'flash_date' => [
+        //   'required_if:flash_sale,1',
+        // ]
       ];
 
       $messages = [
@@ -173,7 +179,7 @@ class ProductController extends Controller
         return response()->json($validator->errors());
       }
 
-      $in = $request->only('title','price','description','quantity', 'offer_amount', 'flash_amount', 'flash_date', 'flash_interval');
+      $in = $request->only('title','price','description','quantity','ship','how_to', 'offer_amount', 'flash_amount', 'flash_date', 'flash_interval');
       $in['vendor_id'] = Auth::guard('vendor')->user()->id;
       $in['slug'] = $slug;
       $in['category_id'] = $request->category;
@@ -206,7 +212,7 @@ class ProductController extends Controller
       } else {
         $in['product_code'] = product_code(8);
       }
-      $in['attributes'] = json_encode($request->except('_token','cat_helper','subcat_helper','images','title','price','category','subcategory','product_code','description', 'quantity', 'offer', 'offer_type', 'offer_amount', 'flash_sale', 'flash_type', 'flash_amount', 'flash_date', 'flash_interval'));
+      $in['attributes'] = json_encode($request->except('_token','cat_helper','subcat_helper','images','title','price','category','subcategory','product_code','description', 'quantity','ship','how_to', 'offer', 'offer_type', 'offer_amount', 'flash_sale', 'flash_type', 'flash_amount', 'flash_date', 'flash_interval'));
 
       $product = Product::create($in);
 

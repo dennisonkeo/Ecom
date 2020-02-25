@@ -5,12 +5,25 @@
 @section('headertxt', 'Product Upload')
 
 @push('nicedit-scripts')
-  <script src="{{asset('assets/nic-edit/nicEdit.js')}}" type="text/javascript"></script>
-  <script type="text/javascript">
-    bkLib.onDomLoaded(function() {
-      new nicEditor({iconsPath : '{{asset('assets/nic-edit/nicEditorIcons.gif')}}', fullPanel : true}).panelInstance('desc');
-    });
+  <script src="{{asset('assets/nic-edit/nicEdit.js')}}" type="text/javascript">
   </script>
+
+
+  <script type="text/javascript">
+    // bkLib.onDomLoaded(function() {
+    //   // new nicEditor({iconsPath : '{{asset('assets/nic-edit/nicEditorIcons.gif')}}', fullPanel : true}).panelInstance('desc'),
+    //   // new nicEditor({iconsPath : '{{asset('assets/nic-edit/nicEditorIcons.gif')}}', fullPanel : true}).panelInstance('desc2')
+    //   nicEditors.editors.push(
+    //     new nicEditor({iconsPath : '{{asset('assets/nic-edit/nicEditorIcons.gif')}}', fullPanel : true}).panelInstance(
+    //         document.getElementsByTagName('textarea')
+    //     )
+    // );
+
+    // });
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+
+  </script>
+  <script type="text/javascript"></script>
 @endpush
 
 @push('styles')
@@ -130,12 +143,26 @@
 
                           <div class="form-element margin-bottom-20">
                              <label>Description <span>**</span></label>
-                             <textarea class="form-control" id="desc" rows="10"></textarea>
+                             <textarea class="form-control nice-edit" id="desc" rows="10"></textarea>
                              <p id="errdesc" class="em no-margin text-danger"></p>
                           </div>
                           <br>
 
-                          <div class="row">
+                          <div class="form-element margin-bottom-20">
+                             <label>How To Use <span>**</span></label>
+                             <textarea class="form-control nic_editor" id="desc2" rows="10"></textarea>
+                             <p id="howto" class="em no-margin text-danger"></p>
+                          </div>
+                          <br>
+
+                          <div class="form-element margin-bottom-20">
+                             <label>Shipping & Return <span>**</span></label>
+                             <textarea class="form-control nic_editor" id="desc3" rows="10" ></textarea>
+                             <p id="ship" class="em no-margin text-danger"></p>
+                          </div>
+                          <br>
+
+                          <div class="row" style="display: none;">
                             <div class="col-md-12">
                               <div class="card">
                                 <div class="card-header base-bg">
@@ -174,7 +201,7 @@
                             </div>
                             <br>
 
-                            <div class="row">
+                            <div class="row" style="display: none;">
                               <div class="col-md-12">
                                 <div class="card">
                                   <div class="card-header base-bg">
@@ -490,11 +517,17 @@
       var uploadForm = document.getElementById('uploadForm');
       var fd = new FormData(uploadForm);
       var descriptionElement = new nicEditors.findEditor('desc');
+      var shipElement = new nicEditors.findEditor('desc2');
+      var howtoElement = new nicEditors.findEditor('desc3');
       description = descriptionElement.getContent();
+      ship = shipElement.getContent();
+      how_to = howtoElement.getContent();
       for (var i = 0; i < imgs.length; i++) {
         fd.append('images[]', imgs[i]);
       }
       fd.append('description', description);
+      fd.append('ship', ship);
+      fd.append('how_to', how_to);
       $.ajax({
         url: '{{route('vendor.product.store')}}',
         type: 'POST',
