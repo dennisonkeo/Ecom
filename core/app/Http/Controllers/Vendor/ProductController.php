@@ -428,7 +428,7 @@ class ProductController extends Controller
         return response()->json($validator->errors());
       }
 
-      $in = $request->only('title', 'price', 'description','quantity', 'offer_amount', 'flash_amount', 'flash_date', 'flash_interval');
+      $in = $request->only('title', 'price', 'description','quantity', 'offer_amount', 'flash_amount', 'flash_date', 'flash_interval','how_to', 'ship');
       $in['vendor_id'] = Auth::guard('vendor')->user()->id;
       $in['category_id'] = $request->category;
       $in['subcategory_id'] = $request->subcategory;
@@ -461,7 +461,7 @@ class ProductController extends Controller
         $in['product_code'] = product_code(8);
       }
 
-      $in['attributes'] = json_encode($request->except('_token','cat_helper','subcat_helper','images','imgsdb','title','price','category','subcategory','product_code','description','quantity','imgs_helper','product_id', 'offer', 'offer_type', 'offer_amount', 'flash_sale', 'flash_type', 'flash_amount', 'flash_date', 'flash_interval'));
+      $in['attributes'] = json_encode($request->except('_token','cat_helper','subcat_helper','images','imgsdb','title','price','category','subcategory','product_code','description','quantity','imgs_helper','product_id', 'offer', 'how_to', 'ship', 'flash_sale', 'flash_type', 'flash_amount', 'flash_date', 'flash_interval'));
       $product = Product::find($request->product_id);
       $product->fill($in)->save();
 

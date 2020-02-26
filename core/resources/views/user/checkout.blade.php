@@ -242,7 +242,7 @@
                     </div>
                     <div class="checkbox-element account">
                         <div class="checkbox-wrapper">
-                            <label class="checkbox-inner">I’ve read and accept the <a href="{{route('terms')}}" class="base-color">terms & conditions *</a>
+                            <label class="checkbox-inner">I’ve read and accepted the <a href="{{route('terms')}}" class="base-color">terms & conditions *</a>
                                 <input type="checkbox" name="terms">
                                 <span class="checkmark"></span>
                             </label>

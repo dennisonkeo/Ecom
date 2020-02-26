@@ -519,9 +519,11 @@
       description = descriptionElement.getContent();
 
       var shipElement = new nicEditors.findEditor('desc2');
-      var howtoElement = new nicEditors.findEditor('desc3');
       ship = shipElement.getContent();
+      
+      var howtoElement = new nicEditors.findEditor('desc3');
       how_to = howtoElement.getContent();
+
       for (var i = 0; i < imgs.length; i++) {
         fd.append('images[]', imgs[i]);
       }

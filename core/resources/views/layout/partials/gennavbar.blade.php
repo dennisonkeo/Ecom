@@ -69,7 +69,7 @@
             <div class="container nav-container">
                 <div class="logo-wrapper navbar-brand ">
                     <a href="index.html" class="logo main-logo mobile-logo">
-                        <img src="{{asset('assets/user/interfaceControl/logoIcon/logo.jpg')}}" alt="logo">
+                        <img src="{{asset('assets/user/interfaceControl/logoIcon/SKINN.png')}}" alt="logo">
                     </a>
                     @if (!Auth::guard('vendor')->check())
                     <div class="form-element has-icon">
@@ -219,7 +219,7 @@
     <div class="slide-sidebar-area" id="slide-sidebar-area">
         <div class="top-content"><!-- top content -->
             <a href="{{route('user.home')}}" class="logo">
-                <img src="{{asset('assets/user/interfaceControl/logoIcon/logo.jpg')}}" alt="logo">
+                <img src="{{asset('assets/user/interfaceControl/logoIcon/SKINN.png')}}" alt="logo">
             </a>
             <span class="side-sidebar-close-btn" id="side-sidebar-close-btn"><i class="fas fa-times"></i></span>
         </div><!-- //. top content -->
