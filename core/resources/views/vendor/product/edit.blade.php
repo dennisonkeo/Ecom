@@ -6,11 +6,14 @@
 
 @push('nicedit-scripts')
   <script src="{{asset('assets/nic-edit/nicEdit.js')}}" type="text/javascript"></script>
+  <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+            
   <script type="text/javascript">
     // bkLib.onDomLoaded(function() {
     //   new nicEditor({iconsPath : '{{asset('assets/nic-edit/nicEditorIcons.gif')}}', fullPanel : true}).panelInstance('desc');
     // });
-    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+    // bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
   </script>
 @endpush
 
@@ -518,10 +521,10 @@
       var descriptionElement = new nicEditors.findEditor('desc');
       description = descriptionElement.getContent();
 
-      var shipElement = new nicEditors.findEditor('desc2');
+      var shipElement = new nicEditors.findEditor('desc3');
       ship = shipElement.getContent();
       
-      var howtoElement = new nicEditors.findEditor('desc3');
+      var howtoElement = new nicEditors.findEditor('desc2');
       how_to = howtoElement.getContent();
 
       for (var i = 0; i < imgs.length; i++) {
