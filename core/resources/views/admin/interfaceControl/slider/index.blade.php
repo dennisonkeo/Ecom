@@ -92,7 +92,7 @@
                               <div class="card-body text-center">
                                 <img src="{{asset('assets/user/interfaceControl/sliders/'.$slider->image)}}" alt="">
                                 <p>
-                                  <strong>Bold Text:</strong> {{$slider->bold_text}}
+                                  <strong style="color: white">Bold Text:</strong> {{$slider->bold_text}}
                                 </p>
                                 <p>
                                   <strong>Small Text:</strong> {{$slider->small_text}}
