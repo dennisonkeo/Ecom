@@ -28,6 +28,10 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'MPESA_CONSUMER_KEY' => env('MPESA_CONSUMER_KEY', null),
+    'MPESA_CONSUMER_SECRET' => env('MPESA_CONSUMER_SECRET', null),
+    'MPESA_ENV' => env('MPESA_ENV', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

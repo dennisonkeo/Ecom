@@ -310,13 +310,14 @@ class CheckoutController extends Controller
         session()->forget('coupon_code');
         // clear cart...
         Cart::where('cart_id', Auth::user()->id)->delete();
+
         // clear conditions (shipping)...
         PlacePayment::where('cart_id', Auth::user()->id)->delete();
 
         $message = "Your order has been placed successfully! Our agent will contact with you later. <br><strong>Order ID: </strong> " . $order->unique_id ."<p><strong>Order details: </strong><a href='".url('/')."/".$order->id."/orderdetails'>".url('/')."/".$order->id."/orderdetails"."</a></p>";
 
-        send_email( $order->user->email, $order->user->first_name, "Order placed", $message);
-        send_sms( $order->user->phone, $message);
+        // send_email( $order->user->email, $order->user->first_name, "Order placed", $message);
+        // send_sms( $order->user->phone, $message);
 
         Session::flash('success', 'Order placed successfully! Our agent will contact with you later.');
         return redirect()->route('user.orders');
@@ -325,6 +326,8 @@ class CheckoutController extends Controller
         return redirect()->route('user.gateways', $order->id);
         // after payment clear Cart and redirect to success page
       }
+
+
     }
 
     public function success() {
