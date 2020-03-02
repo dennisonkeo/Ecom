@@ -4,7 +4,7 @@
   <ul class="app-menu">
     <li><a class="app-menu__item @if(request()->path() == 'admin/dashboard') active @endif" href="{{route('admin.dashboard')}}"><i class="app-menu__icon fas fa-tachometer-alt"></i><span class="app-menu__label">Dashboard</span></a></li>
 
-    <li class="treeview
+{{--     <li class="treeview
     @if(request()->path() == 'admin/generalSetting')
       is-expanded
     @elseif (request()->path() == 'admin/EmailSetting')
@@ -18,23 +18,23 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/EmailSetting') active @endif" href="{{route('admin.EmailSetting')}}" rel="noopener"><i class="icon far fa-circle"></i> Email Setting</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/SmsSetting') active @endif" href="{{route('admin.SmsSetting')}}"><i class="icon far fa-circle"></i> SMS Setting</a></li>
       </ul>
-    </li>
+    </li> --}}
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/charge/index') active @endif" href="{{route('admin.charge.index')}}"><i class="app-menu__icon fas fa-money-bill-alt"></i><span class="app-menu__label">Charge Settings</span></a></li>
+{{--     <li><a class="app-menu__item @if(request()->path() == 'admin/charge/index') active @endif" href="{{route('admin.charge.index')}}"><i class="app-menu__icon fas fa-money-bill-alt"></i><span class="app-menu__label">Charge Settings</span></a></li>
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/coupon/index') active @endif" href="{{route('admin.coupon.index')}}"><i class="app-menu__icon fas fa-dollar-sign"></i><span class="app-menu__label">Coupon Settings</span></a></li>
+    <li><a class="app-menu__item @if(request()->path() == 'admin/coupon/index') active @endif" href="{{route('admin.coupon.index')}}"><i class="app-menu__icon fas fa-dollar-sign"></i><span class="app-menu__label">Coupon Settings</span></a></li> --}}
 
     <li><a class="app-menu__item @if(request()->path() == 'admin/category/index' || request()->is('admin/subcategory/*')) active @endif" href="{{route('admin.category.index')}}"><i class="app-menu__icon fab fa-buromobelexperte"></i><span class="app-menu__label">Category Management</span></a></li>
 
-    <li><a class="app-menu__item
+{{--     <li><a class="app-menu__item
     @if(request()->path() == 'admin/productattr/index') active
     @elseif (request()->is('admin/options/*/index')) active
     @endif" href="{{route('admin.productattr.index')}}"><i class="app-menu__icon fab fa-product-hunt"></i><span class="app-menu__label">Product Attributes</span></a></li>
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/packages') active @endif" href="{{route('admin.package')}}"><i class="app-menu__icon fa fa-gift"></i><span class="app-menu__label">Packages</span></a></li>
+    <li><a class="app-menu__item @if(request()->path() == 'admin/packages') active @endif" href="{{route('admin.package')}}"><i class="app-menu__icon fa fa-gift"></i><span class="app-menu__label">Packages</span></a></li> --}}
 
 
-      <li class="treeview
+{{--       <li class="treeview
       @if(request()->path() == 'admin/vendors/all')
         is-expanded
       @elseif(request()->path() == 'admin/vendors/pending')
@@ -51,9 +51,9 @@
           <li><a class="treeview-item @if(request()->path() == 'admin/vendors/accepted') active @endif" href="{{route('admin.vendors.accepted')}}"><i class="icon far fa-circle"></i> Accepted</a></li>
           <li><a class="treeview-item @if(request()->path() == 'admin/vendors/rejected') active @endif" href="{{route('admin.vendors.rejected')}}"><i class="icon far fa-circle"></i> Rejected</a></li>
         </ul>
-      </li>
+      </li> --}}
 
-      <li class="treeview
+{{--       <li class="treeview
       @if(request()->path() == 'admin/flashsale/times')
         is-expanded
       @elseif(request()->path() == 'admin/flashsale/all')
@@ -73,7 +73,7 @@
           <li><a class="treeview-item @if(request()->path() == 'admin/flashsale/accepted') active @endif" href="{{route('admin.flashsale.accepted')}}"><i class="icon far fa-circle"></i> Accepted Flashsales</a></li>
           <li><a class="treeview-item @if(request()->path() == 'admin/flashsale/rejected') active @endif" href="{{route('admin.flashsale.rejected')}}"><i class="icon far fa-circle"></i> Rejected Flashsales</a></li>
         </ul>
-      </li>
+      </li> --}}
 
 
 
@@ -106,13 +106,13 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/orders/delivery/pending') active @endif" href="{{route('admin.orders.pendingDelivery')}}"><i class="icon far fa-circle"></i> Delivery Pending</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/orders/delivery/inprocess') active @endif" href="{{route('admin.orders.pendingInprocess')}}"><i class="icon far fa-circle"></i> Delivery Inprocess</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/orders/delivered') active @endif" href="{{route('admin.orders.delivered')}}"><i class="icon far fa-circle"></i> Delivered</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/orders/cashondelivery') active @endif" href="{{route('admin.orders.cashOnDelivery')}}"><i class="icon far fa-circle"></i> Cash on Delivery</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/orders/advance') active @endif" href="{{route('admin.orders.advance')}}"><i class="icon far fa-circle"></i> Advance Paid</a></li>
+        <li><a class="treeview-item @if(request()->path() == 'admin/orders/cashondelivery') active @endif" href="{{route('admin.orders.cashOnDelivery')}}"><i class="icon far fa-circle"></i> Mpesa On Delivery</a></li>
+        <li><a class="treeview-item @if(request()->path() == 'admin/orders/advance') active @endif" href="{{route('admin.orders.advance')}}"><i class="icon far fa-circle"></i> Mpesa On Order</a></li>
       </ul>
     </li>
 
 
-    <li class="treeview
+{{--     <li class="treeview
     @if(request()->path() == 'admin/comments')
       is-expanded
     @elseif(request()->path() == 'admin/complains')
@@ -126,10 +126,10 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/complains') active @endif" href="{{route('admin.complains')}}"><i class="icon far fa-circle"></i> Complains</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/suggestions') active @endif" href="{{route('admin.suggestions')}}"><i class="icon far fa-circle"></i> Suggestions</a></li>
       </ul>
-    </li>
+    </li> --}}
 
 
-    <li class="treeview
+ {{--    <li class="treeview
     @if(request()->path() == 'admin/refunds/all')
       is-expanded
     @elseif(request()->path() == 'admin/refunds/pending')
@@ -146,7 +146,7 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/refunds/accepted') active @endif" href="{{route('admin.refunds.accepted')}}"><i class="icon far fa-circle"></i> Accepted</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/refunds/rejected') active @endif" href="{{route('admin.refunds.rejected')}}"><i class="icon far fa-circle"></i> Rejected</a></li>
       </ul>
-    </li>
+    </li> --}}
 
 
     <li class="treeview
@@ -185,7 +185,7 @@
     </li>
 
 
-    <li class="treeview
+{{--     <li class="treeview
     @if (request()->path() == 'admin/vendorManagement/allVendors')
       is-expanded
     @elseif (request()->path() == 'admin/vendorManagement/bannedVendors')
@@ -203,14 +203,14 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/vendorManagement/allVendors' || request()->path() == 'admin/vendorManagement/allVendorsSearchResult') active @endif" href="{{route('admin.allVendors')}}"><i class="icon far fa-circle"></i> All Vendors</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/vendorManagement/bannedVendors' || request()->path() == 'admin/vendorManagement/bannedVendorsSearchResult') active @endif" href="{{route('admin.bannedVendors')}}"><i class="icon far fa-circle"></i> Banned Vendors</a></li>
       </ul>
-    </li>
+    </li> --}}
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/subscribers') active @endif" href="{{route('admin.subscribers')}}"><i class="app-menu__icon fas fa-newspaper"></i><span class="app-menu__label">Subscribers</span></a></li>
+{{--     <li><a class="app-menu__item @if(request()->path() == 'admin/subscribers') active @endif" href="{{route('admin.subscribers')}}"><i class="app-menu__icon fas fa-newspaper"></i><span class="app-menu__label">Subscribers</span></a></li>
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/gateways') active @endif" href="{{route('admin.gateways')}}"><i class="app-menu__icon fab fa-cc-mastercard"></i><span class="app-menu__label">Gateways</span></a></li>
+    <li><a class="app-menu__item @if(request()->path() == 'admin/gateways') active @endif" href="{{route('admin.gateways')}}"><i class="app-menu__icon fab fa-cc-mastercard"></i><span class="app-menu__label">Gateways</span></a></li> --}}
 
 
-    <li class="treeview
+{{--     <li class="treeview
     @if(request()->path() == 'admin/deposit/pending')
       is-expanded
     @elseif (request()->path() == 'admin/deposit/acceptedRequests')
@@ -227,10 +227,10 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/deposit/rejectedRequests') active @endif" href="{{route('admin.deposit.rejectedRequests')}}"><i class="icon far fa-circle"></i> Rejected Request</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/deposit/depositLog') active @endif" href="{{route('admin.deposit.depositLog')}}"><i class="icon far fa-circle"></i> Deposit Log</a></li>
       </ul>
-    </li>
+    </li> --}}
 
 
-    <li class="treeview
+{{--     <li class="treeview
     @if(request()->path() == 'admin/withdrawLog')
       is-expanded
     @elseif (request()->path() == 'admin/withdrawMethod')
@@ -250,9 +250,9 @@
         <li><a class="treeview-item @if(request()->path() == 'admin/successLog') active @endif" href="{{route('admin.withdrawMoney.successLog')}}"><i class="icon far fa-circle"></i> Success Log</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/refundedLog') active @endif" href="{{route('admin.withdrawMoney.refundedLog')}}"><i class="icon far fa-circle"></i> Refunded Log</a></li>
       </ul>
-    </li>
+    </li> --}}
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/trxlog') active @endif" href="{{route('admin.trxLog')}}"><i class="app-menu__icon fas fa-exchange-alt"></i><span class="app-menu__label">Transaction Log</span></a></li>
+   {{--  <li><a class="app-menu__item @if(request()->path() == 'admin/trxlog') active @endif" href="{{route('admin.trxLog')}}"><i class="app-menu__icon fas fa-exchange-alt"></i><span class="app-menu__label">Transaction Log</span></a></li> --}}
 
 
     <li class="treeview
@@ -278,13 +278,13 @@
       <ul class="treeview-menu">
         <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/logoIcon/index') active @endif" href="{{route('admin.logoIcon.index')}}"><i class="icon far fa-circle"></i> Logo+Icon Setting</a></li>
         <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/support/index') active @endif" href="{{route('admin.support.index')}}"><i class="icon far fa-circle"></i> Support Informations</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/partner/index') active @endif" href="{{route('admin.partner.index')}}"><i class="icon far fa-circle"></i> Partners</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/slider/index') active @endif" href="{{route('admin.slider.index')}}"><i class="icon far fa-circle"></i> Slider Settings</a></li>
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/partner/index') active @endif" href="{{route('admin.partner.index')}}"><i class="icon far fa-circle"></i> Partners</a></li> --}}
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/slider/index') active @endif" href="{{route('admin.slider.index')}}"><i class="icon far fa-circle"></i> Slider Settings</a></li> --}}
         <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/contact/index') active @endif" href="{{route('admin.contact.index')}}"><i class="icon far fa-circle"></i> Contact Informations</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/social/index') active @endif" href="{{route('admin.social.index')}}"><i class="icon far fa-circle"></i> Social Links Setting</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/logintext/index') active @endif" href="{{route('admin.logintext.index')}}"><i class="icon far fa-circle"></i> Login Text</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/registertext/index') active @endif" href="{{route('admin.registertext.index')}}"><i class="icon far fa-circle"></i> Register Text</a></li>
-        <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/footer/index') active @endif" href="{{route('admin.footer.index')}}"><i class="icon far fa-circle"></i> Footer Text</a></li>
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/social/index') active @endif" href="{{route('admin.social.index')}}"><i class="icon far fa-circle"></i> Social Links Setting</a></li> --}}
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/logintext/index') active @endif" href="{{route('admin.logintext.index')}}"><i class="icon far fa-circle"></i> Login Text</a></li> --}}
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/registertext/index') active @endif" href="{{route('admin.registertext.index')}}"><i class="icon far fa-circle"></i> Register Text</a></li> --}}
+        {{-- <li><a class="treeview-item @if(request()->path() == 'admin/interfaceControl/footer/index') active @endif" href="{{route('admin.footer.index')}}"><i class="icon far fa-circle"></i> Footer Text</a></li> --}}
       </ul>
     </li>
 
@@ -309,15 +309,15 @@
     </li>
 
 
-    <li><a class="app-menu__item @if(request()->path() == 'admin/menuManager/index') active @endif" href="{{route('admin.menuManager.index')}}"><i class="app-menu__icon fa fa-bars"></i><span class="app-menu__label">Menu Management</span></a></li>
+    {{-- <li><a class="app-menu__item @if(request()->path() == 'admin/menuManager/index') active @endif" href="{{route('admin.menuManager.index')}}"><i class="app-menu__icon fa fa-bars"></i><span class="app-menu__label">Menu Management</span></a></li> --}}
 
-
+{{-- 
     <li><a class="app-menu__item
       @if(request()->path() == 'admin/Ad/index')
         active
       @elseif(request()->path() == 'admin/Ad/create')
         active
-      @endif" href="{{route('admin.ad.index')}}"><i class="app-menu__icon fab fa-buysellads"></i> <span class="app-menu__label"> Advertisement</span></a></li>
+      @endif" href="{{route('admin.ad.index')}}"><i class="app-menu__icon fab fa-buysellads"></i> <span class="app-menu__label"> Advertisement</span></a></li> --}}
 
   </ul>
 </aside>
