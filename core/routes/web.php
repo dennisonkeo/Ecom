@@ -44,6 +44,7 @@ Route::get('/ipnblockdog/payment', 'User\GatewayController@blockIpnDog')->name('
 Route::post('/ipnpaypal/payment', 'User\GatewayController@ipnpaypal')->name('ipn.paypal.payment');
 Route::post('/ipnperfect/payment', 'User\GatewayController@ipnperfect')->name('ipn.perfect.payment');
 Route::post('/ipnstripe/payment', 'User\GatewayController@ipnstripe')->name('ipn.stripe.payment');
+Route::get('/mpesa/payment', 'User\GatewayController@MpesaPay')->name('mpesa.payment');
 Route::post('/ipnskrill/payment', 'User\GatewayController@skrillIPN')->name('ipn.skrill.payment');
 Route::post('/ipncoinpaybtc/payment', 'User\GatewayController@ipnCoinPayBtc')->name('ipn.coinPay.btc.payment');
 Route::post('/ipncoinpayeth/payment', 'User\GatewayController@ipnCoinPayEth')->name('ipn.coinPay.eth.payment');

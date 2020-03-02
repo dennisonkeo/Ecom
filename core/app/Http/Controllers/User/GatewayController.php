@@ -8,6 +8,7 @@ use App\Orderpayment;
 use App\Orderedproduct;
 use App\Vendor;
 use Stripe\Stripe;
+// use Safaricom\Mpesa\Mpesa;
 use Stripe\Token;
 use Stripe\Charge;
 use App\Transaction;
@@ -104,7 +105,14 @@ class GatewayController extends Controller {
             $paypal['sendto'] = $gatewayData->val1;
             $paypal['track'] = $track;
             return view('user.payment.paymentViews.paypal', compact('paypal', 'gnl'));
-        } elseif ($data->gateway_id == 102) {
+        } elseif ($data->gateway_id == 90) {
+            $perfect['amount'] = $data->usd_amo;
+            $perfect['value1'] = $gatewayData->val1;
+            $perfect['value2'] = $gatewayData->val2;
+            $perfect['track'] = $track;
+            return view('user.payment.paymentViews.mpesa', compact('track', 'pt'));
+        }
+        elseif ($data->gateway_id == 102) {
             $perfect['amount'] = $data->usd_amo;
             $perfect['value1'] = $gatewayData->val1;
             $perfect['value2'] = $gatewayData->val2;
@@ -1075,6 +1083,38 @@ class GatewayController extends Controller {
                $this->vendorDataUpdate($data);
             }
         }
+
+    }
+
+    public function MpesaPay()
+    {
+        
+        $mpesa= new \Safaricom\Mpesa\Mpesa();
+
+        $BusinessShortCode = "523608";
+        $LipaNaMpesaPasskey = "78dbd4c3ecda6503b00be053264fe0760ae70f7c5c0c3c6f49869fbc5ccdb346";
+        $TransactionType = "CustomerPayBillOnline";
+        $Amount = "1";
+        $PartyA = "254708552578";
+        $PartyB = "523608";
+        $PhoneNumber = "254708552578";
+        $CallBackURL = 'https://2be796e3.ngrok.io/api/mpesa-response';
+        $AccountReference = Auth::user()->phone;
+        $TransactionDesc = "Payment";
+        $Remarks = "Yess";
+
+
+        $stkPushSimulation = $mpesa->STKPushSimulation($BusinessShortCode, $LipaNaMpesaPasskey, 
+                                                        $TransactionType, $Amount, $PartyA, $PartyB, $PhoneNumber, $CallBackURL, $AccountReference, $TransactionDesc, $Remarks
+                                                        );
+// return $stkPushSimulation;
+
+        $check = $stkPushSimulation;
+
+        $callbackJSONData=file_get_contents('php://input');
+
+        $handle=fopen("assets/transaction.txt", 'w');
+        fwrite($handle, $stkPushSimulation);
 
     }
 }
