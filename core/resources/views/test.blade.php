@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="5OITRl5Yqe4UBzb7rAeqOSFtONRQMmjMYXErwdt4">
-<title> Bigenja | Product Details </title>
+<title> Skin Republik | Product Details </title>
 <!-- favicon -->
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <!-- bootstrap -->

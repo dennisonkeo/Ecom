@@ -189,7 +189,7 @@
                           Coupon already applied! This coupon code is valid till {{date('jS F, Y', strtotime($cdetails->valid_till))}}
                         </div>
                       @endif
-                      <form id="couponform">
+                      {{-- <form id="couponform">
                         {{csrf_field()}}
                         <div class="left-content-area">
                             <div class="coupon-code-wrapper">
@@ -200,7 +200,7 @@
                             </div>
                             <p id="errcouponcode" class="text-danger em"></p>
                         </div>
-                      </form>
+                      </form> --}}
                       @php
                         if (Auth::check()) {
                           $sessionid = Auth::user()->id;
@@ -233,8 +233,9 @@
                       <div class="row">
                         <div class="col-md-12">
                           <select class="form-control" name="payment_method" id="paymentMethod" onchange="calcTotal(this.value)">
-                            <option value="1" @if(!empty($pp->payment)) {{$pp->payment==1?'selected':''}} @else selected @endif>Cash on delivery</option>
-                            <option value="2" @if(!empty($pp->payment)) {{$pp->payment==2?'selected':''}} @endif>Advance</option>
+                            <option value="1" >Pay Now via MPesa - Online Option</option>
+                            <option value="2" >Pay Now via MPesa - Manual Option</option>
+                            <option value="2" >Pay Now with Visa/ MasterCard</option>
                           </select>
                         </div>
                       </div>

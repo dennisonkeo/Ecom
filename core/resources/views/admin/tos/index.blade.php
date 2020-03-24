@@ -13,7 +13,7 @@
   <main class="app-content">
      <div class="app-title">
         <div>
-           <h1>Terms & Conditios</h1>
+           <h1>Terms & Conditions</h1>
         </div>
      </div>
      <div class="row">

@@ -52,8 +52,8 @@
                         <div class="widget-body">
                             <ul class="page-list">
                                 <li><a href="{{route('user.home')}}">--  Home</a></li>
-                                <li><a href="{{route('user.search')}}">--  Shop</a></li>
-                                <li><a href="{{route('vendor.login')}}">--  Vendor</a></li>
+                                <li><a href="{{route('user.search')}}">--  Retail</a></li>
+                                <li><a href="{{route('vendor.login')}}">--  Wholesale</a></li>
                                 <li><a href="{{route('user.wishlist')}}">--  Wishlist</a></li>
                             </ul>
                         </div>
@@ -79,7 +79,7 @@
                 <div class="col-lg-5 col-md-6">
                     <div class="footer-widget">
                         <div class="widget-title">
-                            <h4 class="title">Subscribe</h4>
+                            <h4 class="title">Subscribe For Stock Updates</h4>
                         </div>
                         <div class="widget-body">
                           <div class="coupon-code-wrapper">

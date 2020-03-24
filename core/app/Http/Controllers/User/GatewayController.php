@@ -1117,4 +1117,56 @@ class GatewayController extends Controller {
         fwrite($handle, $stkPushSimulation);
 
     }
+
+    public function mpesa_response(Request $request)
+    {
+
+        $mpesa= new \Safaricom\Mpesa\Mpesa();
+
+        // $callbackJSONData = $mpesa->getDataFromCallback();
+
+        $callbackJSONData=file_get_contents('php://input');
+
+        $handle=fopen("assets/transactions.txt", 'w');
+
+        fwrite($handle, $callbackJSONData);
+
+        $account_no = json_decode($callbackJSONData)->Body->stkCallback->MerchantRequestID;
+
+        $ResultCode = json_decode($callbackJSONData)->Body->stkCallback->ResultCode;
+
+        if($ResultCode == "0")
+
+        {
+            $amount = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[0]->Value;
+            $phone = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[4]->Value;
+            $trans_no = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[1]->Value;
+            $trans_date = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[3]->Value;
+
+            $pay = new Payment();
+                             
+                   $pay->phone = $phone;
+                   $pay->trans_no = $trans_no;
+                   $pay->account_no = $account_no;
+                   $pay->trans_date = $trans_date;
+                   $pay->amount = $amount;
+
+                             
+                    $pay->save();
+
+                    Upload::where('user_id', Auth::user()->id)
+                                            ->where('uploaded','no')
+                                            ->update(array('uploaded' => 'yes'));
+                             
+                    ImagePay::where('account_no',"=", $account_no)
+                             ->update(array('status' => 'Paid'));
+
+                return response()->json('Success');
+            }
+            else
+            {
+                return response()->json('Something Went Wrong!');
+            }
+
+    }
 }

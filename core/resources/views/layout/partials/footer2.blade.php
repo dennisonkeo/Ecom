@@ -6,7 +6,7 @@
                 <div class="col-lg-12">
                     <div class="copyright-inner blue-bg"><!-- copyright inner -->
                         <div class="left-content-area">
-                            <span class="copyright-text">Copyright by@Bigenza - 2018</span>
+                            <span class="copyright-text">Copyright by@SKINREPUBLIK - 2020</span>
                         </div>
                         <div class="right-content-area">
                             <ul class="payment-logo">

@@ -10,7 +10,7 @@
                         <h1 class="title">{{$slider->bold_text}}</h1>
                         <p>{{$slider->small_text}}</p>
                             <div class="btn-wrapper">
-                                <a href="{{$slider->url}}" class="boxed-btn">View Collections</a>
+                                <a href="{{$slider->url}}" class="boxed-btn">Buy Now </a>
                             </div>
                     </div><!-- //. header inner -->
                 </div>

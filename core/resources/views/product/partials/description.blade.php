@@ -27,7 +27,7 @@
                            <i class="fa fa-check-circle base-txt"></i> Cash on delivery charge - <strong>{{$gs->in_cash_on_delivery}} {{$gs->base_curr_text}}</strong>
                          </li>
                          <li>
-                           <i class="fa fa-check-circle base-txt"></i> If you pay advance then delivery charge - <strong>{{$gs->in_advanced}} {{$gs->base_curr_text}}</strong>
+                           <i class="fa fa-check-circle base-txt"></i> If you pay in advance then delivery charge - <strong>{{$gs->in_advanced}} {{$gs->base_curr_text}}</strong>
                          </li>
                        </ul> 
                      </div>
