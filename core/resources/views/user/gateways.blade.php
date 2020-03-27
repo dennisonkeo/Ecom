@@ -1,9 +1,9 @@
 
 @extends('layout.master')
 
-@section('title', 'Payment Gateways')
+@section('title', 'Lipa Na Mpesa')
 
-@section('headertxt', 'Select Payment Gateway')
+@section('headertxt', 'Lipa Na Mpesa')
 
 @push('styles')
 <style media="screen">
@@ -20,8 +20,8 @@
   <div class="gateways-container">
     <div class="container">
         @foreach ($gateways as $gateway)
-          @if ($gateway->id < 900)
-            @if ($loop->iteration % 4 == 1)
+          @if ($gateway->id == 90) {{-- $gateway->id <900 --}}
+            @if ($loop->iteration % 4 == 1) {{-- $loop->iteration % 4 == 1 --}}
             <div class="row"> {{-- .row start --}}
             @endif
             <div class="col-md-3">
@@ -39,7 +39,7 @@
                     <input type="hidden" name="amount" value="{{getTotal($userid)}}">
                     <input type="hidden" name="gateway" value="{{$gateway->id}}">
                     <input type="hidden" name="orderid" value="{{$orderid}}">
-                    <button class="btn btn-block btn-primary" type="submit">Select</button>
+                    <button class="btn btn-block btn-primary" type="submit">Proceed</button>
                   </form>
                 </div>
               </div>
