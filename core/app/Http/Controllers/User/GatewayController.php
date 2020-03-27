@@ -91,7 +91,7 @@ class GatewayController extends Controller {
     public function paymentConfirm() {
         $gnl = GeneralSetting::first();
         $track = Session::get('Track');
-        $data = Orderpayment::where('trx', $track)->orderBy('id', 'DESC')->first();
+        $data = Orderpayment::where('trx', $track)->orderBy('id', 'DESC')->first();        
         // return $data;
         if (is_null($data)) {
             return redirect()->route('user.gateways')->with('alert', 'Invalid Payment Request');
@@ -105,12 +105,25 @@ class GatewayController extends Controller {
             $paypal['sendto'] = $gatewayData->val1;
             $paypal['track'] = $track;
             return view('user.payment.paymentViews.paypal', compact('paypal', 'gnl'));
-        } elseif ($data->gateway_id == 90) {
-            $perfect['amount'] = $data->usd_amo;
-            $perfect['value1'] = $gatewayData->val1;
-            $perfect['value2'] = $gatewayData->val2;
-            $perfect['track'] = $track;
-            return view('user.payment.paymentViews.mpesa', compact('track', 'pt'));
+        } 
+        elseif ($data->gateway_id == 90) 
+        {
+            
+        $paymentData = Orderpayment::where('trx',$track)->orderBy('id', 'DESC')->first();
+        
+       
+        if($this->stkPushSimulation('254708552578', intval($paymentData->amount)) != "")
+        {
+
+        // $callbackJSONData=file_get_contents('php://input');
+
+        // $handle=fopen("assets/transaction.txt", 'w');
+        // fwrite($handle, $callbackJSONData);
+            return redirect()->route('user.orders')->with('success', 'Order placed successfully! Our agent will contact with you later. Make sure to complete the payment');
+        }
+
+            
+            // return view('user.payment.paymentViews.mpesa', compact('track', 'pt'));
         }
         elseif ($data->gateway_id == 102) {
             $perfect['amount'] = $data->usd_amo;
@@ -1088,6 +1101,9 @@ class GatewayController extends Controller {
 
     public function MpesaPay()
     {
+        $track = Session::get('Track');
+
+        $paymentData = Orderpayment::where('trx',$track)->orderBy('id', 'DESC')->first();
         
         $mpesa= new \Safaricom\Mpesa\Mpesa();
 
@@ -1098,8 +1114,8 @@ class GatewayController extends Controller {
         $PartyA = "254708552578";
         $PartyB = "523608";
         $PhoneNumber = "254708552578";
-        $CallBackURL = 'https://2be796e3.ngrok.io/api/mpesa-response';
-        $AccountReference = Auth::user()->phone;
+        $CallBackURL = ' https://94f3f447.ngrok.io/ecom/api/mpesa-response';
+        $AccountReference = "254708552578";
         $TransactionDesc = "Payment";
         $Remarks = "Yess";
 
@@ -1111,17 +1127,24 @@ class GatewayController extends Controller {
 
         $check = $stkPushSimulation;
 
-        $callbackJSONData=file_get_contents('php://input');
+        dd($check);
 
-        $handle=fopen("assets/transaction.txt", 'w');
-        fwrite($handle, $stkPushSimulation);
+        if($check !="")
+        {
+
+            // $callbackJSONData=file_get_contents('php://input');
+
+            $handle=fopen("assets/transaction.txt", 'w');
+            fwrite($handle, $stkPushSimulation);
+                return redirect()->route('user.orders')->with('success', 'Order placed successfully! Our agent will contact with you later.');
+        }
 
     }
 
     public function mpesa_response(Request $request)
     {
 
-        $mpesa= new \Safaricom\Mpesa\Mpesa();
+        // $mpesa= new \Safaricom\Mpesa\Mpesa();
 
         // $callbackJSONData = $mpesa->getDataFromCallback();
 
@@ -1143,30 +1166,122 @@ class GatewayController extends Controller {
             $trans_no = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[1]->Value;
             $trans_date = json_decode($callbackJSONData)->Body->stkCallback->CallbackMetadata->Item[3]->Value;
 
-            $pay = new Payment();
-                             
-                   $pay->phone = $phone;
-                   $pay->trans_no = $trans_no;
-                   $pay->account_no = $account_no;
-                   $pay->trans_date = $trans_date;
-                   $pay->amount = $amount;
+                $track = Session::get('Track');
 
-                             
-                    $pay->save();
+                $paymentData = Orderpayment::where('trx',$track)->orderBy('id', 'DESC')->first();
 
-                    Upload::where('user_id', Auth::user()->id)
-                                            ->where('uploaded','no')
-                                            ->update(array('uploaded' => 'yes'));
-                             
-                    ImagePay::where('account_no',"=", $account_no)
-                             ->update(array('status' => 'Paid'));
 
-                return response()->json('Success');
+                if(strtoupper($paymentData->status) == '0')
+                {
+                    //Update User Data
+                    $this->vendorDataUpdate($paymentData);
+                }
             }
-            else
-            {
-                return response()->json('Something Went Wrong!');
-            }
+            // else
+            // {
+            //     return response()->json('Something Went Wrong!');
+            // }
 
     }
+
+    public static function generateLiveToken(){
+
+           try {
+            // $consumer_key = env("MPESA_CONSUMER_KEY");
+            // $consumer_key = config('app.MPESA_CONSUMER_KEY');
+            $consumer_key = 'wnVlDhb4HMxi6j6HbaxbRxhAaPGUQ1WL';
+            $consumer_secret = 'vwrHrrBRGFrx8yX9';
+        } catch (\Throwable $th) {
+            // $consumer_key = self::env("MPESA_CONSUMER_KEY");
+            $consumer_key = 'wnVlDhb4HMxi6j6HbaxbRxhAaPGUQ1WL';
+            // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
+            $consumer_secret = 'vwrHrrBRGFrx8yX9';
+        }
+
+        if(!isset($consumer_key)||!isset($consumer_secret)){
+            die("please declare the consumer key andHHHHH consumer secret as defined in the documentation");
+        }
+        $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $credentials = base64_encode($consumer_key.':'.$consumer_secret);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+
+        $curl_response = curl_exec($curl);
+
+        return json_decode($curl_response)->access_token;
+
+
+    }
+
+    public function STKPushSimulation($PhoneNumber,$Amount){
+
+        try {
+            $environment = "live";
+        } catch (\Throwable $th) {
+            $environment = self::config('app.MPESA_ENV');
+        }
+        
+        if( $environment =="live"){
+            $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+            $token = self::generateLiveToken();
+        }elseif ($environment=="sandbox"){
+            $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+            $token = self::generateSandBoxToken();
+        }else{
+            return json_encode(["Message"=>"invalid application status"]);
+        }
+
+        $LipaNaMpesaPasskey = "78dbd4c3ecda6503b00be053264fe0760ae70f7c5c0c3c6f49869fbc5ccdb346";
+        $BusinessShortCode = "523608";
+        $TransactionType = "CustomerPayBillOnline";
+        $CallBackURL = 'https://c22c7903.ngrok.io/ecom/api/mpesa-response';
+        $timestamp='20'.date(    "ymdhis");
+        $password=base64_encode($BusinessShortCode.$LipaNaMpesaPasskey.$timestamp);
+
+        $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$token));
+
+
+        $curl_post_data = array(
+            'BusinessShortCode' => $BusinessShortCode,
+            'Password' => "NTIzNjA4NzhkYmQ0YzNlY2RhNjUwM2IwMGJlMDUzMjY0ZmUwNzYwYWU3MGY3YzVjMGMzYzZmNDk4NjlmYmM1Y2NkYjM0NjIwMTkxMTE4MTUzMzQ4",
+            'Timestamp' => "20191118153348",
+            'TransactionType' => $TransactionType,
+            'Amount' => $Amount,
+            'PartyA' => $PhoneNumber,
+            'PartyB' => $BusinessShortCode,
+            'PhoneNumber' => $PhoneNumber,
+            'CallBackURL' => $CallBackURL,
+            'AccountReference' => "254708552578",
+            'TransactionDesc' => $TransactionType
+        );
+
+        $data_string = json_encode($curl_post_data);
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $curl_response=curl_exec($curl);
+
+        // return substr($curl_response, 35,14);
+        // $result = curl_exec($ch);
+        $result = json_decode($curl_response)->MerchantRequestID;
+
+        $callbackJSONData=file_get_contents('php://input');
+
+        $handle=fopen("assets/transaction.txt", 'w');
+        fwrite($handle, $result);
+        
+        return $result;
+}
 }

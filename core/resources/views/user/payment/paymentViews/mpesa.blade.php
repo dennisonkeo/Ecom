@@ -38,7 +38,7 @@
 					</div>
 					<form role="form" id="payment-form" method="GET" action="{{ route('mpesa.payment')}}" >
 						{{csrf_field()}}
-						<input type="hidden" value="{{ $track }}" name="track">
+						<input type="text" value="{{ $track }}" name="track">
 						<div class="row">
 							<div class="col-md-6">
 								<p>Everything Looks Good</p>

@@ -235,7 +235,7 @@
                           <select class="form-control" name="payment_method" id="paymentMethod" onchange="calcTotal(this.value)">
                             <option value="1" >Pay Now via MPesa - Online Option</option>
                             <option value="2" >Pay Now via MPesa - Manual Option</option>
-                            <option value="2" >Pay Now with Visa/ MasterCard</option>
+                            <option value="3" >Pay Now with Visa/ MasterCard</option>
                           </select>
                         </div>
                       </div>
