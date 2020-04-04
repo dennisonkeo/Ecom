@@ -53,7 +53,7 @@ class GatewayController extends Controller {
             // return redirect()->route('user.orders');
         }
     }
-
+ 
     public function paymentDataInsert(Request $request) {
         $this->validate($request, ['amount' => 'required', 'gateway' => 'required']);
         if ($request->amount <= 0) {
