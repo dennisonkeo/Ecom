@@ -102,7 +102,7 @@ class ProfileController extends Controller
         $data['on'] = '';
         $data['orders'] = Order::orderBy('id', 'DESC')->paginate(10);
       }
-
+      
       return view('user.order.orders', $data);
     }
 

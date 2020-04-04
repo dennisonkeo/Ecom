@@ -44,13 +44,13 @@ class GatewayController extends Controller {
             // clear conditions (shipping)...
             PlacePayment::where('cart_id', Auth::user()->id)->delete();
 
-            $message = "Your order has been placed successfully! Our agent will contact with you later. <br><strong>Order ID: </strong> " . $data->order->unique_id ."<p><strong>Order details: </strong><a href='".url('/')."/".$data->order_id."/orderdetails'>".url('/')."/".$data->order_id."/orderdetails"."</a></p>";
+            // $message = "Your order has been placed successfully! Our agent will contact with you later. <br><strong>Order ID: </strong> " . $data->order->unique_id ."<p><strong>Order details: </strong><a href='".url('/')."/".$data->order_id."/orderdetails'>".url('/')."/".$data->order_id."/orderdetails"."</a></p>";
 
-            send_email( $data->user->email, $data->user->first_name, "Order placed", $message);
-            send_sms( $data->user->phone, $message);            
+            // send_email( $data->user->email, $data->user->first_name, "Order placed", $message);
+            // send_sms( $data->user->phone, $message);            
 
-            Session::flash('success', 'Order placed successfully! Our agent will contact with you later.');
-            return redirect()->route('user.orders');
+            // Session::flash('success', 'Order placed successfully! Our agent will contact with you later.');
+            // return redirect()->route('user.orders');
         }
     }
 
@@ -112,13 +112,14 @@ class GatewayController extends Controller {
         $paymentData = Orderpayment::where('trx',$track)->orderBy('id', 'DESC')->first();
         
        
-        if($this->stkPushSimulation('254708552578', intval($paymentData->amount)) != "")
+        if($this->stkPushSimulation(Auth::user()->phone, 1) != "")
         {
 
-        // $callbackJSONData=file_get_contents('php://input');
+            Cart::where('cart_id', Auth::user()->id)->delete();
 
-        // $handle=fopen("assets/transaction.txt", 'w');
-        // fwrite($handle, $callbackJSONData);
+            // clear conditions (shipping)...
+            PlacePayment::where('cart_id', Auth::user()->id)->delete();
+
             return redirect()->route('user.orders')->with('success', 'Order placed successfully! Our agent will contact with you later. Make sure to complete the payment');
         }
 
@@ -1173,14 +1174,12 @@ class GatewayController extends Controller {
 
                 if(strtoupper($paymentData->status) == '0')
                 {
+                Orderpayment::where('merchantID', $account_no)->update(array('mpesaref' => $trans_no,'status'=>1,'mphone'=>$phone));
                     //Update User Data
                     $this->vendorDataUpdate($paymentData);
                 }
             }
-            // else
-            // {
-            //     return response()->json('Something Went Wrong!');
-            // }
+
 
     }
 
@@ -1189,13 +1188,13 @@ class GatewayController extends Controller {
            try {
             // $consumer_key = env("MPESA_CONSUMER_KEY");
             // $consumer_key = config('app.MPESA_CONSUMER_KEY');
-            $consumer_key = 'wnVlDhb4HMxi6j6HbaxbRxhAaPGUQ1WL';
-            $consumer_secret = 'vwrHrrBRGFrx8yX9';
+            $consumer_key = '3iSWuoX5aY30FxLFqEYN0wdpIsl7X6kK';
+            $consumer_secret = '7Q8bxSdngvPbQ04c';
         } catch (\Throwable $th) {
             // $consumer_key = self::env("MPESA_CONSUMER_KEY");
-            $consumer_key = 'wnVlDhb4HMxi6j6HbaxbRxhAaPGUQ1WL';
+            $consumer_key = '3iSWuoX5aY30FxLFqEYN0wdpIsl7X6kK';
             // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
-            $consumer_secret = 'vwrHrrBRGFrx8yX9';
+            $consumer_secret = '7Q8bxSdngvPbQ04c';
         }
 
         if(!isset($consumer_key)||!isset($consumer_secret)){
@@ -1237,10 +1236,10 @@ class GatewayController extends Controller {
             return json_encode(["Message"=>"invalid application status"]);
         }
 
-        $LipaNaMpesaPasskey = "78dbd4c3ecda6503b00be053264fe0760ae70f7c5c0c3c6f49869fbc5ccdb346";
-        $BusinessShortCode = "523608";
+        $LipaNaMpesaPasskey = " bab1285e1094bc6c69c3e17efd9ccef52e10c6ce1cb99627b1135125467dd3a9";
+        $BusinessShortCode = "5018197";
         $TransactionType = "CustomerPayBillOnline";
-        $CallBackURL = 'https://c22c7903.ngrok.io/ecom/api/mpesa-response';
+        $CallBackURL = 'https://891c842c.ngrok.io/ecom/api/mpesa-response';
         $timestamp='20'.date(    "ymdhis");
         $password=base64_encode($BusinessShortCode.$LipaNaMpesaPasskey.$timestamp);
 
@@ -1253,12 +1252,12 @@ class GatewayController extends Controller {
 
         $curl_post_data = array(
             'BusinessShortCode' => $BusinessShortCode,
-            'Password' => "NTIzNjA4NzhkYmQ0YzNlY2RhNjUwM2IwMGJlMDUzMjY0ZmUwNzYwYWU3MGY3YzVjMGMzYzZmNDk4NjlmYmM1Y2NkYjM0NjIwMTkxMTE4MTUzMzQ4",
+            'Password' => "NTAxODE5N2JhYjEyODVlMTA5NGJjNmM2OWMzZTE3ZWZkOWNjZWY1MmUxMGM2Y2UxY2I5OTYyN2IxMTM1MTI1NDY3ZGQzYTkyMDE5MTExODE1MzM0OA==",
             'Timestamp' => "20191118153348",
             'TransactionType' => $TransactionType,
             'Amount' => $Amount,
             'PartyA' => $PhoneNumber,
-            'PartyB' => $BusinessShortCode,
+            'PartyB' => "5017637",
             'PhoneNumber' => $PhoneNumber,
             'CallBackURL' => $CallBackURL,
             'AccountReference' => "254708552578",
@@ -1281,6 +1280,11 @@ class GatewayController extends Controller {
 
         $handle=fopen("assets/transaction.txt", 'w');
         fwrite($handle, $result);
+
+        $track = Session::get('Track');
+        $payInfo = Orderpayment::where('trx',$track)->orderBy('id', 'DESC')->first();
+
+        Orderpayment::where('id',$payInfo->id)->update(array('merchantID' => $result));
         
         return $result;
 }

@@ -42,31 +42,32 @@
                           <div class="col-lg-6">
                               <div class="right-contnet-area">
                                   <div class="top-content">
-                                      <h4 class="title">Signup Today</h4>
+                                      <h4 class="title">Signupdsdsjd Today</h4>
                                   </div>
                                   <div class="bottom-content">
                                       <form action="{{route('user.register')}}" method="post" class="login-form">
                                           {{csrf_field()}}
                                           <div class="form-element">
-                                              <input type="text" name="username" class="input-field" value="{{old('username')}}" placeholder="Enter Username">
+                                              <input type="text" name="username" class="input-field" value="{{old('username')}}" placeholder="Enter Username" required="">
                                               @if ($errors->has('username'))
                                                 <p class="text-danger">{{$errors->first('username')}}</p>
                                               @endif
                                           </div>
                                           <div class="form-element">
-                                              <input type="email" name="email" class="input-field" value="{{old('email')}}" placeholder="Enter Email">
+                                              <input type="email" name="email" class="input-field" value="{{old('email')}}" placeholder="Enter Email" required="">
                                               @if ($errors->has('email'))
                                                 <p class="text-danger">{{$errors->first('email')}}</p>
                                               @endif
                                           </div>
                                           <div class="form-element">
-                                              <input type="text" name="phone" class="input-field" value="{{old('phone')}}" placeholder="Enter Phone Number">
+                                              <input type="text" name="phone" class="input-field" value="{{old('phone')}}" placeholder="Enter Phone Number" required="">
+                                                <p style="margin-left: 10px;"><small>e.g 254700000000</small></p>
                                               @if ($errors->has('phone'))
                                                 <p class="text-danger">{{$errors->first('phone')}}</p>
                                               @endif
                                           </div>
                                           <div class="form-element">
-                                              <input type="password" name="password" class="input-field" placeholder="Enter Password">
+                                              <input type="password" name="password" class="input-field" placeholder="Enter Password" required="">
                                               @if ($errors->has('password'))
                                                 <p class="text-danger">{{$errors->first('password')}}</p>
                                               @endif

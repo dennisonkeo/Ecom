@@ -54,7 +54,7 @@
 
                   <div class="col-lg-6">
                       <div class="right-content-area"><!-- right content area -->
-                          <div class="top-content">
+                          {{-- <div class="top-content">
                               <ul class="review">
                                   <div class="ratingpro" id="ratingPro{{$product->id}}"></div>
                                   @if (\App\ProductReview::where('product_id', $product->id)->count() == 0)
@@ -64,7 +64,7 @@
                                   @endif
                               </ul>
                               <span class="orders">Orders ({{$sales}})</span>
-                          </div>
+                          </div> --}}
                           <form class="bottom-content" id="attrform" enctype="multipart/form-data">
                             {{csrf_field()}}
                               <span class="cat">{{$product->category->name}}</span>

@@ -13,7 +13,7 @@
 @section('content')
   <div id="home">
     <div class="body-overlay" id="body-overlay"></div>
-    <div class="search-popup" id="search-popup">
+    <iv class="search-popup" id="search-popup">
         <form action="index.html" class="search-popup-form">
             <div class="form-element">
                     <input type="text"  class="input-field" placeholder="Search.....">

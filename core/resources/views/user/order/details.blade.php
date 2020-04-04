@@ -55,9 +55,11 @@
                 <p>
                   <strong>Payment Method: </strong>
                   @if ($order->payment_method == 1)
-                    Cash on delivery
+                    
+                    Pay via Mpesa On Delivery
                   @elseif ($order->payment_method == 2)
-                    Advance Paid via <strong>{{$order->orderpayment->gateway->name}}</strong>
+                    {{-- Advance Paid via <strong>{{$order->orderpayment->gateway->name}}</strong> --}}
+                    Pay Now Via Mpesa
                   @endif
                 </p>
                 @if ($order->approve != -1)
