@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-element">
-                                    <label>Street address <span class="base-color">**</span></label>
+                                    <label>Delivery address <span class="base-color">**</span></label>
                                     <input name="address" type="text" class="input-field" placeholder="Street address..." value="{{$user->address}}">
                                     @if ($errors->has('address'))
                                       <p class="text-danger">{{$errors->first('address')}}</p>
@@ -68,9 +68,9 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-element select has-icon">
-                                    <label>Country <span class="base-color">**</span></label>
+                                    <label>County <span class="base-color">**</span></label>
                                     <select name="country" class="input-field select ">
-                                        <option value="" selected disabled>Select Country</option>
+                                        <option value="" selected disabled>Select County</option>
                                         @foreach ($countries as $country)
                                           <option value="{{$country}}" {{$country==$user->country?'selected':''}}>{{$country}}</option>
                                         @endforeach
@@ -83,7 +83,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            {{-- <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>State <span class="base-color">**</span></label>
                                     <input name="state" type="text" class="input-field" placeholder="Enter state..." value="{{$user->state}}">
@@ -91,19 +91,19 @@
                                       <p class="text-danger">{{$errors->first('state')}}</p>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-element">
-                                    <label>City <span class="base-color">**</span></label>
+                                    <label>Region <span class="base-color">**</span></label>
                                     <input name="city" type="text" class="input-field" placeholder="Enter city..." value="{{$user->city}}">
                                     @if ($errors->has('city'))
                                       <p class="text-danger">{{$errors->first('city')}}</p>
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            {{-- <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>Zip Code <span class="base-color">**</span></label>
                                     <input name="zip_code" type="text" class="input-field" placeholder="Enter zip code..." value="{{$user->zip_code}}">
@@ -111,7 +111,7 @@
                                       <p class="text-danger">{{$errors->first('zip_code')}}</p>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
 
@@ -119,6 +119,7 @@
                             <div class="form-element textarea">
                                 <label>Order notes</label>
                                 <textarea name="order_notes" class="input-field textarea" cols="30" rows="10"></textarea>
+                                <small>Please provide more address details below to help the delivery rider find you faster.maybe the building name, floor and house number </small>
                             </div>
                         </div>
                       </div>
@@ -217,14 +218,14 @@
                             <input class="form-check-input" type="radio" id="inlineCheckbox1" name="place" value="in" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='in'?'checked':''}} @endif>
                             <label class="form-check-label" for="inlineCheckbox1">In {{$gs->main_city}}</label>
                           </div>
-                          <div class="form-check form-check-inline">
+                         {{--  <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="inlineCheckbox2" name="place" value="around" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='around'?'checked':''}} @endif>
                             <label class="form-check-label" for="inlineCheckbox2">Around {{$gs->main_city}}</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="inlineCheckbox3" name="place" value="world" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='world'?'checked':''}} @else checked @endif>
                             <label class="form-check-label" for="inlineCheckbox3">Other Places</label>
-                          </div>
+                          </div> --}}
                         </div>
                       </div>
                       <br>
@@ -233,9 +234,9 @@
                       <div class="row">
                         <div class="col-md-12">
                           <select class="form-control" name="payment_method" id="paymentMethod" onchange="calcTotal(this.value)">
-                            <option value="1" >Pay Now via MPesa - Online Option</option>
-                            <option value="2" >Pay Now via MPesa - Manual Option</option>
-                            <option value="3" >Pay Now with Visa/ MasterCard</option>
+                            <option value="2" >Pay Now via MPesa</option>
+                            <option value="1" >Pay via MPesa On Delivery</option>
+                            {{-- <option value="3" >Pay Now with Visa/ MasterCard</option> --}}
                           </select>
                         </div>
                       </div>

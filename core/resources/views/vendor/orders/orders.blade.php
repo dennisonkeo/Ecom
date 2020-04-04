@@ -67,9 +67,9 @@
                                             </td>
                                             <td class="padding-top-40">
                                               @if ($order->payment_method == 2)
-                                                Advance
+                                                Pay Now Via Mpesa
                                               @elseif ($order->payment_method == 1)
-                                                Cash on delivery
+                                                Pay Via Mpesa On Delivery
                                               @endif
                                             </td>
                                             <td class="padding-top-40">

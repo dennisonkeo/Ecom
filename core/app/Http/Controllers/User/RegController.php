@@ -27,7 +27,7 @@ class RegController extends Controller
         $validatedRequest = $request->validate([
             'username' => 'required|unique:users',
             'email' => 'required|email|max:255|unique:users',
-            'phone' => 'required',
+            'phone' => ['required', 'string', 'max:13','regex:/(2547)[0-9]{8}/'],
             'password' => 'required|confirmed'
         ]);
 

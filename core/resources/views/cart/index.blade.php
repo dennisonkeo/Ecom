@@ -115,8 +115,8 @@
                                   <div class="row">
                                     <div class="col-md-12">
                                       <select class="form-control" name="payment_method" id="paymentMethod" onchange="calcTotal(this.value)">
-                                        <option value="1" {{session('paymentMethod')==1 || !session()->has('paymentMethod')?'selected':''}}>Cash on delivery</option>
-                                        <option value="2" {{session('paymentMethod')==2?'selected':''}}>Advance</option>
+                                        <option value="1" {{session('paymentMethod')==2 || !session()->has('paymentMethod')?'selected':''}}>Pay Now Via Mpesa</option>
+                                        <option value="2" {{session('paymentMethod')==1?'selected':''}}>Pay Via Mpesa On Delivery</option>
                                       </select>
                                     </div>
                                   </div>

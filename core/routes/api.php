@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('mpesa-response', 'GatewayController@mpesa_response')->name('mpesa-response');
+Route::post('mpesa-response', 'User\GatewayController@mpesa_response')->name('mpesa-response');

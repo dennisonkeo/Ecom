@@ -1,0 +1,1 @@
+{"Body":{"stkCallback":{"MerchantRequestID":"23938-1380719-1","CheckoutRequestID":"ws_CO_020420201916599921","ResultCode":"SFC_IC0003","ResultDesc":"The operator does not exist."}}}

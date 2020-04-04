@@ -53,7 +53,7 @@
                             <ul class="page-list">
                                 <li><a href="{{route('user.home')}}">--  Home</a></li>
                                 <li><a href="{{route('user.search')}}">--  Retail</a></li>
-                                <li><a href="{{route('vendor.login')}}">--  Wholesale</a></li>
+                                {{-- <li><a href="{{route('vendor.login')}}">--  Wholesale</a></li> --}}
                                 <li><a href="{{route('user.wishlist')}}">--  Wishlist</a></li>
                             </ul>
                         </div>
