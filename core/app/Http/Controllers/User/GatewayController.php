@@ -1218,10 +1218,42 @@ class GatewayController extends Controller {
 
     }
 
+    public static function generateSandBoxToken(){
+        
+        try {
+            // $consumer_key = env("MPESA_CONSUMER_KEY");
+            // $consumer_key = config('app.MPESA_CONSUMER_KEY');
+            $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
+            $consumer_secret = 'reGBzVMWg0gW9QNC';
+        } catch (\Throwable $th) {
+            // $consumer_key = self::env("MPESA_CONSUMER_KEY");
+            $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
+            // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
+            $consumer_secret = 'reGBzVMWg0gW9QNC';
+        }
+
+        if(!isset($consumer_key)||!isset($consumer_secret)){
+            die("please declare the consumer key and consumer secret as defined in the documentation");
+        }
+        $url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $credentials = base64_encode($consumer_key.':'.$consumer_secret);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $curl_response = curl_exec($curl);
+
+        return json_decode($curl_response)->access_token;
+    }
+
     public function STKPushSimulation($PhoneNumber,$Amount){
 
         try {
-            $environment = "live";
+            $environment = "sandbox";
         } catch (\Throwable $th) {
             $environment = self::config('app.MPESA_ENV');
         }
@@ -1239,11 +1271,11 @@ class GatewayController extends Controller {
         $LipaNaMpesaPasskey = " bab1285e1094bc6c69c3e17efd9ccef52e10c6ce1cb99627b1135125467dd3a9";
         $BusinessShortCode = "5018197";
         $TransactionType = "CustomerPayBillOnline";
-        $CallBackURL = 'https://891c842c.ngrok.io/ecom/api/mpesa-response';
+        $CallBackURL = 'https://d2154ab6.ngrok.io/ecom/api/mpesa-response';
         $timestamp='20'.date(    "ymdhis");
         $password=base64_encode($BusinessShortCode.$LipaNaMpesaPasskey.$timestamp);
 
-        $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        // $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -1251,17 +1283,17 @@ class GatewayController extends Controller {
 
 
         $curl_post_data = array(
-            'BusinessShortCode' => $BusinessShortCode,
-            'Password' => "NTAxODE5N2JhYjEyODVlMTA5NGJjNmM2OWMzZTE3ZWZkOWNjZWY1MmUxMGM2Y2UxY2I5OTYyN2IxMTM1MTI1NDY3ZGQzYTkyMDE5MTExODE1MzM0OA==",
-            'Timestamp' => "20191118153348",
+            'BusinessShortCode' => "174379",
+            'Password' => "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTgxMDE1MTIzNTIw",
+            'Timestamp' => "20181015123520",
             'TransactionType' => $TransactionType,
             'Amount' => $Amount,
             'PartyA' => $PhoneNumber,
-            'PartyB' => "5017637",
+            'PartyB' => "174379",
             'PhoneNumber' => $PhoneNumber,
             'CallBackURL' => $CallBackURL,
-            'AccountReference' => "254708552578",
-            'TransactionDesc' => $TransactionType
+            'AccountReference' => "test",
+            'TransactionDesc' => "test"
         );
 
         $data_string = json_encode($curl_post_data);
