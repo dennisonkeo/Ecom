@@ -151,7 +151,7 @@
                                               <th>Quantity</th>
                                               <th>Total</th>
                                               @if ($order->shipping_status == 2)
-                                              <th>Action</th>
+                                              {{-- <th>Action</th> --}}
                                               @endif
                                           </tr>
                                       </thead>
@@ -209,10 +209,10 @@
                                                 @endif
                                               </td>
                                               @if ($orderedproduct->order->shipping_status == 2)
-                                                <td>
+                                               {{--  <td>
                                                   <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#commentModal{{$orderedproduct->id}}">Comment</button>
                                                   <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#refundModal{{$orderedproduct->id}}">Refund</button>
-                                                </td>
+                                                </td> --}}
                                               @endif
                                           </tr>
 

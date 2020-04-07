@@ -173,11 +173,11 @@
                                 <span class="right normal" id="shippingCharge"></span>
                             </div>
                         </li>
-                        <li>
+                        {{-- <li>
                             <div class="single-order-list title-bold">
                                 Tax <span class="right normal">{{$gs->tax}} %</span>
                             </div>
-                        </li>
+                        </li> --}}
                         <li>
                             <div class="single-order-list title-bold">
                                 Total <span class="right normal" id="total">{{$gs->base_curr_symbol}} {{getTotal(Auth::user()->id)}}</span>
@@ -218,14 +218,14 @@
                             <input class="form-check-input" type="radio" id="inlineCheckbox1" name="place" value="in" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='in'?'checked':''}} @endif>
                             <label class="form-check-label" for="inlineCheckbox1">In {{$gs->main_city}}</label>
                           </div>
-                         {{--  <div class="form-check form-check-inline">
+                          <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="inlineCheckbox2" name="place" value="around" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='around'?'checked':''}} @endif>
-                            <label class="form-check-label" for="inlineCheckbox2">Around {{$gs->main_city}}</label>
+                            <label class="form-check-label" for="inlineCheckbox2">Within Nairobi</label>
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="inlineCheckbox3" name="place" value="world" onchange="calcTotal(document.getElementById('paymentMethod').value)" @if(!empty($pp->place)) {{$pp->place=='world'?'checked':''}} @else checked @endif>
-                            <label class="form-check-label" for="inlineCheckbox3">Other Places</label>
-                          </div> --}}
+                            <label class="form-check-label" for="inlineCheckbox3">Countrywide</label>
+                          </div>
                         </div>
                       </div>
                       <br>

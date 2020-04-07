@@ -101,11 +101,11 @@
                                       </div>
                                       <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="inlineCheckbox2" name="place" value="around" onchange="calcTotal(document.getElementById('paymentMethod').value)" {{session('place')=='around'?'checked':''}}>
-                                        <label class="form-check-label" for="inlineCheckbox2">Around {{$gs->main_city}}</label>
+                                        <label class="form-check-label" for="inlineCheckbox2">Within Nairobi</label>
                                       </div>
                                       <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="inlineCheckbox3" name="place" value="world" onchange="calcTotal(document.getElementById('paymentMethod').value)" {{session('place')=='world' || !session()->has('place')?'checked':''}}>
-                                        <label class="form-check-label" for="inlineCheckbox3">Around the World</label>
+                                        <label class="form-check-label" for="inlineCheckbox3">Countrywide</label>
                                       </div>
                                     </div>
                                   </div>
@@ -136,7 +136,7 @@
                                   <ul class="cart-list">
                                       <li>Subtotal <span class="right" id="subtotal">{{$gs->base_curr_symbol}} {{getSubTotal($sessionid)}}</span></li>
                                       <li>Shipping Charge <span class="right" id="shippingCharge"></span></li>
-                                      <li>Tax <span class="right">{{$gs->tax}}%</span></li>
+                                      {{-- <li>Tax <span class="right">{{$gs->tax}}%</span></li> --}}
                                       <li class="total">Total <span class="right" id="total"></span></li>
                                   </ul>
                               </div>

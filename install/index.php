@@ -222,10 +222,10 @@
   if ($_POST) {
   $user = $_POST['user'];
   // $code = $_POST['code'];
-  $db_name = 'database';
+  $db_name = 'skinrepu_ecom';
   $db_host = 'localhost';
-  $db_user = 'root';
-  $db_pass = '';
+  $db_user = 'skinrepu_root';
+  $db_pass = 'Repuskin@91';
   // $api = "https://thesoftking.com/verify/api.php?code=$code&user=$user&domain=$base_url";
 
 $ch = curl_init();

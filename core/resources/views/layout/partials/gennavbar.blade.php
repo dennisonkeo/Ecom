@@ -98,7 +98,7 @@
                           <li class="nav-item">
                               <a class="nav-link" href="{{route('vendor.dashboard')}}">Dashboard</a>
                           </li>
-                          <li class="nav-item">
+                          {{-- <li class="nav-item">
                               <a class="nav-link" href="{{route('package.index')}}">Packages</a>
                           </li>
                           <li class="nav-item">
@@ -106,7 +106,7 @@
                           </li>
                           <li class="nav-item">
                               <a class="nav-link" href="{{route('vendor.withdrawMoney')}}">Withdraw</a>
-                          </li>
+                          </li> --}}
                           <li class="nav-item">
                               <a class="nav-link" href="{{route('vendor.orders')}}">Orders</a>
                           </li>
