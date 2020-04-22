@@ -306,6 +306,8 @@ class CheckoutController extends Controller
 
 
       if ($request->payment_method == 1) {
+        Session::flash('alert', 'The confirmation code supplied does not exist or is invalid.');
+        return back();
         // clear coupon from session
         session()->forget('coupon_code');
         // clear cart...

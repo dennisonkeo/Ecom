@@ -16,7 +16,7 @@
                       </div>
                       <div class="mini-card-wrapper">
                           <div class="row">
-                              <div class="col-lg-4 col-md-6">
+                              {{-- <div class="col-lg-4 col-md-6">
                                   <div class="single-mini-card-item bg-light-blue">
                                       <div class="bg-icon">
                                           <i class="fas fa-dollar-sign"></i>
@@ -24,8 +24,8 @@
                                       <h4 class="title">Current Balance</h4>
                                       <div class="counterup">$<span class="count">{{\App\Vendor::find(Auth::guard('vendor')->user()->id)->balance}}</span></div>
                                   </div>
-                              </div>
-                              <div class="col-lg-4 col-md-6">
+                              </div> --}}
+                              <div class="col-lg-6 col-md-6">
                                   <a href="{{route('vendor.orders')}}" class="single-mini-card-item bg-light-orange">
                                       <div class="bg-icon">
                                           <i class="fas fa-shopping-cart"></i>
@@ -34,7 +34,7 @@
                                       <div class="counterup"><span class="count">{{count(\App\Orderedproduct::join('orders', 'orders.id', '=', 'orderedproducts.order_id')->select('order_id', DB::raw('count(order_id) as total'))->where('vendor_id', Auth::guard('vendor')->user()->id)->whereIn('orders.approve', [0, 1])->groupBy('order_id')->get())}}</span></div>
                                   </a>
                               </div>
-                              <div class="col-lg-4 col-md-6">
+                              <div class="col-lg-6 col-md-6">
                                   <a href="{{route('vendor.product.manage')}}" class="single-mini-card-item bg-light-gray">
                                       <div class="bg-icon">
                                           <i class="fab fa-product-hunt"></i>

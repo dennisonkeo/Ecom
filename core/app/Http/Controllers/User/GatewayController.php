@@ -1184,17 +1184,17 @@ class GatewayController extends Controller {
     }
 
     public static function generateLiveToken(){
-
-           try {
+        
+        try {
             // $consumer_key = env("MPESA_CONSUMER_KEY");
             // $consumer_key = config('app.MPESA_CONSUMER_KEY');
             $consumer_key = '3iSWuoX5aY30FxLFqEYN0wdpIsl7X6kK';
             $consumer_secret = '7Q8bxSdngvPbQ04c';
         } catch (\Throwable $th) {
             // $consumer_key = self::env("MPESA_CONSUMER_KEY");
-            $consumer_key = '3iSWuoX5aY30FxLFqEYN0wdpIsl7X6kK';
+            $consumer_key = self::config('app.MPESA_CONSUMER_KEY');
             // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
-            $consumer_secret = '7Q8bxSdngvPbQ04c';
+            $consumer_secret = self::config('app.MPESA_CONSUMER_SECRET');
         }
 
         if(!isset($consumer_key)||!isset($consumer_secret)){
@@ -1210,7 +1210,6 @@ class GatewayController extends Controller {
 
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-
         $curl_response = curl_exec($curl);
 
         return json_decode($curl_response)->access_token;
@@ -1218,59 +1217,63 @@ class GatewayController extends Controller {
 
     }
 
-    public static function generateSandBoxToken(){
+    // public static function generateSandBoxToken(){
         
-        try {
-            // $consumer_key = env("MPESA_CONSUMER_KEY");
-            // $consumer_key = config('app.MPESA_CONSUMER_KEY');
-            $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
-            $consumer_secret = 'reGBzVMWg0gW9QNC';
-        } catch (\Throwable $th) {
-            // $consumer_key = self::env("MPESA_CONSUMER_KEY");
-            $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
-            // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
-            $consumer_secret = 'reGBzVMWg0gW9QNC';
-        }
+    //     try {
+    //         // $consumer_key = env("MPESA_CONSUMER_KEY");
+    //         // $consumer_key = config('app.MPESA_CONSUMER_KEY');
+    //         $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
+    //         $consumer_secret = 'reGBzVMWg0gW9QNC';
+    //     } catch (\Throwable $th) {
+    //         // $consumer_key = self::env("MPESA_CONSUMER_KEY");
+    //         $consumer_key = 'GbnvlmRA8YYrQdx7rTLErSBpyg5cYfQe';
+    //         // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
+    //         $consumer_secret = 'reGBzVMWg0gW9QNC';
+    //     }
 
-        if(!isset($consumer_key)||!isset($consumer_secret)){
-            die("please declare the consumer key and consumer secret as defined in the documentation");
-        }
-        $url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        $credentials = base64_encode($consumer_key.':'.$consumer_secret);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //     if(!isset($consumer_key)||!isset($consumer_secret)){
+    //         die("please declare the consumer key and consumer secret as defined in the documentation");
+    //     }
+    //     $url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    //     $curl = curl_init();
+    //     curl_setopt($curl, CURLOPT_URL, $url);
+    //     $credentials = base64_encode($consumer_key.':'.$consumer_secret);
+    //     curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+    //     curl_setopt($curl, CURLOPT_HEADER, false);
+    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    //     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-        $curl_response = curl_exec($curl);
+    //     $curl_response = curl_exec($curl);
 
-        return json_decode($curl_response)->access_token;
-    }
+    //     return json_decode($curl_response)->access_token;
+    // }
 
     public function STKPushSimulation($PhoneNumber,$Amount){
 
-        try {
-            $environment = "sandbox";
-        } catch (\Throwable $th) {
-            $environment = self::config('app.MPESA_ENV');
-        }
+        // try {
+        //     $environment = "live";
+        // } catch (\Throwable $th) {
+        //     $environment = self::config('app.MPESA_ENV');
+        // }
         
-        if( $environment =="live"){
+        // if( $environment =="live")
+        // {
             $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
             $token = self::generateLiveToken();
-        }elseif ($environment=="sandbox"){
-            $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-            $token = self::generateSandBoxToken();
-        }else{
-            return json_encode(["Message"=>"invalid application status"]);
-        }
+        // }
+        // elseif ($environment=="sandbox"){
+        //     $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        //     $token = self::generateSandBoxToken();
+        // }
+        // else
+        // {
+        //     return json_encode(["Message"=>"invalid application status"]);
+        // }
 
         $LipaNaMpesaPasskey = " bab1285e1094bc6c69c3e17efd9ccef52e10c6ce1cb99627b1135125467dd3a9";
         $BusinessShortCode = "5018197";
-        $TransactionType = "CustomerPayBillOnline";
+        $TransactionType = "CustomerBuyGoodsOnline";
         $CallBackURL = 'https://d2154ab6.ngrok.io/ecom/api/mpesa-response';
         $timestamp='20'.date(    "ymdhis");
         $password=base64_encode($BusinessShortCode.$LipaNaMpesaPasskey.$timestamp);
@@ -1283,17 +1286,17 @@ class GatewayController extends Controller {
 
 
         $curl_post_data = array(
-            'BusinessShortCode' => "174379",
-            'Password' => "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTgxMDE1MTIzNTIw",
-            'Timestamp' => "20181015123520",
+            'BusinessShortCode' => "5018197",
+            'Password' =>"IDUwMTgxOTdiYWIxMjg1ZTEwOTRiYzZjNjljM2UxN2VmZDljY2VmNTJlMTBjNmNlMWNiOTk2MjdiMTEzNTEyNTQ2N2RkM2E5MjAxOTExMTgxNTMzNDg=",
+            'Timestamp' => "20191118153348",
             'TransactionType' => $TransactionType,
             'Amount' => $Amount,
             'PartyA' => $PhoneNumber,
-            'PartyB' => "174379",
+            'PartyB' => "5017637",
             'PhoneNumber' => $PhoneNumber,
             'CallBackURL' => $CallBackURL,
-            'AccountReference' => "test",
-            'TransactionDesc' => "test"
+            'AccountReference' => $PhoneNumber,
+            'TransactionDesc' => "Buy goods"
         );
 
         $data_string = json_encode($curl_post_data);
@@ -1304,8 +1307,8 @@ class GatewayController extends Controller {
         curl_setopt($curl, CURLOPT_HEADER, false);
         $curl_response=curl_exec($curl);
 
-        // return substr($curl_response, 35,14);
-        // $result = curl_exec($ch);
+        $handle=fopen("assets/transaction.txt", 'w');
+        fwrite($handle, $curl_response);
         $result = json_decode($curl_response)->MerchantRequestID;
 
         $callbackJSONData=file_get_contents('php://input');

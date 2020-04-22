@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 @extends('layout.master')
 
 @section('title', 'Checkout')
@@ -241,6 +242,28 @@
                         </div>
                       </div>
                       <br>
+                      <div class="row" id="row_mpesa" style="display: none;">
+
+                        <div class="col-md-12">
+                            <p>From your phone, 
+                              <img src="{{asset('assets/user/img/mpesa.PNG')}}" alt="new collcetion image" width="70" height="40" />
+                            </p>
+
+                            <ul>
+
+                                <li>– Go to <b>MPESA</b> Menu</li>
+                                <li>– Select <b>Lipa na M-PESA</b></li>
+                                <li>– Select <b>Buy Goods and Services</b></li>
+                                <li>– Enter <b>Till Number: 5017637</b></li>
+                                <li>– Enter <b>Amount: KSh <span id="total2">{{$gs->base_curr_symbol}} {{getTotal(Auth::user()->id)}}</span></b></li>
+                                <li>– Enter <b>PIN</b> and confirm transaction</li>
+                            </ul>
+                            <br>
+                              <label class="base-color">Enter MPESA Confirmation Code <span style="color: red;">*</span></label><br>
+                            <input type="text" class="form-control col-md-6" name="trans_no" id="trans_no" placeholder="HDTRE6MDJEWO">
+                        </div>
+                      </div>
+                      <br>
                     </div>
                     <div class="checkbox-element account">
                         <div class="checkbox-wrapper">
@@ -270,6 +293,25 @@
 
 @section('js-scripts')
   <script>
+
+    $('#paymentMethod').on('change', function(e) {
+   
+    var option = e.target.value;
+
+    if(option == "1")
+    {
+      document.getElementById('row_mpesa').style.display = "block";
+
+    }
+    else
+    {
+      document.getElementById('row_mpesa').style.display = "none";
+    }
+
+
+  }); 
+
+
     var curr = "{{$gs->base_curr_symbol}}";
 
     $(document).ready(function() {
@@ -277,6 +319,14 @@
     });
 
     function calcTotal(paymentMethod) {
+      if($("#paymentMethod :selected").val() == "1")
+      {
+        document.getElementById('row_mpesa').style.display = "block";
+      }
+      else
+      {
+        document.getElementById('row_mpesa').style.display = "none";
+      }
       var place;
       var shippingmethod = document.getElementsByName('place');
       for (var i = 0; i < shippingmethod.length; i++) {
@@ -296,6 +346,7 @@
           console.log(data);
           $("#shippingCharge").html(curr + " " + data.shippingcharge);
           $("#total").html(curr + " " + data.total);
+          $("#total2").html(curr + " " + data.total);
         }
       );
     }
@@ -331,6 +382,7 @@
               document.getElementById('couponCodeIn').value = '';
               $("#subtotal").html(curr + " " + data.subtotal);
               $("#total").html(curr + " " + data.total);
+              $("#total2").html(curr + " " + data.total);
               if (data.ctotal > 0) {
                 $("#licoupon").removeClass('d-none');
                 $("#licoupon").addClass('d-block');
@@ -350,6 +402,20 @@
     }
 
     function placeorder() {
+      if($("#paymentMethod :selected").val() == "1")
+      {
+        if($("#trans_no").val() == "")
+        {
+          // alert('Enter the MPESA Confirmation Code');
+          Swal.fire({
+            title: 'Error...',
+            text: 'Enter the MPESA Confirmation Code!',
+            icon: 'error',
+          })
+          return false;
+        }
+        
+      }
       document.getElementById("billingDetailsForm").submit();
     }
   </script>
