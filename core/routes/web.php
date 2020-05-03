@@ -97,6 +97,7 @@ Route::get('/bestsellers', 'User\PagesController@bestsellers')->name('user.bests
 
 // Cron Jobs
 // it wil run per day
+Route::get('statusMpesa', 'User\CheckoutController@transactionStatus')->name('statusMpesa');
 Route::get('/couponvaliditycheck', 'User\CheckoutController@couponvaliditycheck')->name('checkout.couponvaliditycheck');
 
 
@@ -158,6 +159,7 @@ Route::group(['middleware' => 'auth'], function() {
 		Route::get('/checkout', 'User\CheckoutController@index')->name('user.checkout.index')->middleware('emailVerification', 'smsVerification', 'bannedUser');
 		Route::post('/coupon/apply', 'User\CheckoutController@applycoupon')->name('user.checkout.applycoupon');
 		Route::post('/placeorder', 'User\CheckoutController@placeorder')->name('user.checkout.placeorder');
+		Route::get('/transactionStatus', 'User\CheckoutController@transactionStatus')->name('user.checkout.transactionStatus');
 		Route::get('/checkout/success', 'User\CheckoutController@success')->name('user.checkout.success')->middleware('emailVerification', 'smsVerification', 'bannedUser');
 
 

@@ -8,7 +8,7 @@
 <!-- checkout page content area start -->
 <div class="checkout-page-content-area">
     <div class="container">
-      <form id="billingDetailsForm" action="{{route('user.checkout.placeorder')}}" class="checkout-form" method="post">
+      <form id="billingDetailsForm" action="{{route('user.checkout.transactionStatus')}}" class="checkout-form" method="post">
         <div class="row">
             <div class="col-lg-6">
                 <div class="left-content-area">
@@ -19,7 +19,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>First name <span class="base-color">**</span></label>
-                                    <input name="first_name" type="text" class="input-field" placeholder="First name..." value="{{$user->shipping_first_name}}">
+                                    <input name="first_name" type="text" id="fname" class="input-field" placeholder="First name..." value="{{$user->shipping_first_name}}">
                                     @if ($errors->has('first_name'))
                                       <p class="text-danger">{{$errors->first('first_name')}}</p>
                                     @endif
@@ -28,7 +28,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>Last Name <span class="base-color">**</span></label>
-                                    <input name="last_name" type="text" class="input-field" placeholder="Last name..." value="{{$user->shipping_last_name}}">
+                                    <input name="last_name" type="text" id="lname" class="input-field" placeholder="Last name..." value="{{$user->shipping_last_name}}">
                                     @if ($errors->has('last_name'))
                                       <p class="text-danger">{{$errors->first('last_name')}}</p>
                                     @endif
@@ -39,7 +39,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>Phone <span class="base-color">**</span></label>
-                                    <input name="phone" type="text" class="input-field" placeholder="Phone Number..." value="{{$user->shipping_phone}}">
+                                    <input name="phone" id="phone" type="text" class="input-field" placeholder="Phone Number..." value="{{$user->shipping_phone}}">
                                     @if ($errors->has('phone'))
                                       <p class="text-danger">{{$errors->first('phone')}}</p>
                                     @endif
@@ -48,7 +48,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>Email <span class="base-color">**</span></label>
-                                    <input name="email" type="text" class="input-field" placeholder="Email Address..." value="{{$user->shipping_email}}">
+                                    <input name="email" id="email" type="text" class="input-field" placeholder="Email Address..." value="{{$user->shipping_email}}" required="">
                                     @if ($errors->has('email'))
                                       <p class="text-danger">{{$errors->first('email')}}</p>
                                     @endif
@@ -59,7 +59,7 @@
                             <div class="col-lg-12">
                                 <div class="form-element">
                                     <label>Delivery address <span class="base-color">**</span></label>
-                                    <input name="address" type="text" class="input-field" placeholder="Street address..." value="{{$user->address}}">
+                                    <input name="address" id="address" type="text" class="input-field" placeholder="Street address..." value="{{$user->address}}" required="">
                                     @if ($errors->has('address'))
                                       <p class="text-danger">{{$errors->first('address')}}</p>
                                     @endif
@@ -70,7 +70,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element select has-icon">
                                     <label>County <span class="base-color">**</span></label>
-                                    <select name="country" class="input-field select ">
+                                    <select name="country" class="input-field select " required="" id="country">
                                         <option value="" selected disabled>Select County</option>
                                         @foreach ($countries as $country)
                                           <option value="{{$country}}" {{$country==$user->country?'selected':''}}>{{$country}}</option>
@@ -98,7 +98,7 @@
                             <div class="col-lg-6">
                                 <div class="form-element">
                                     <label>Region <span class="base-color">**</span></label>
-                                    <input name="city" type="text" class="input-field" placeholder="Enter city..." value="{{$user->city}}">
+                                    <input name="city" id="city" type="text" class="input-field" placeholder="Enter city..." value="{{$user->city}}" required="">
                                     @if ($errors->has('city'))
                                       <p class="text-danger">{{$errors->first('city')}}</p>
                                     @endif
@@ -235,14 +235,14 @@
                       <div class="row">
                         <div class="col-md-12">
                           <select class="form-control" name="payment_method" id="paymentMethod" onchange="calcTotal(this.value)">
-                            <option value="2" >Pay Now via MPesa</option>
-                            <option value="1" >Pay via MPesa On Delivery</option>
+                            {{-- <option value="2" >Pay Now via MPesa</option> --}}
+                            <option value="1" >Pay via MPesa</option>
                             {{-- <option value="3" >Pay Now with Visa/ MasterCard</option> --}}
                           </select>
                         </div>
                       </div>
                       <br>
-                      <div class="row" id="row_mpesa" style="display: none;">
+                      <div class="row" id="row_mpesa" style="diplay: none;">
 
                         <div class="col-md-12">
                             <p>From your phone, 
@@ -260,7 +260,7 @@
                             </ul>
                             <br>
                               <label class="base-color">Enter MPESA Confirmation Code <span style="color: red;">*</span></label><br>
-                            <input type="text" class="form-control col-md-6" name="trans_no" id="trans_no" placeholder="HDTRE6MDJEWO">
+                            <input type="text" class="form-control col-md-6" name="trans_no" id="trans_no" placeholder="HDTRE6MDJEWO" >
                         </div>
                       </div>
                       <br>
@@ -268,7 +268,7 @@
                     <div class="checkbox-element account">
                         <div class="checkbox-wrapper">
                             <label class="checkbox-inner">I’ve read and accepted the <a href="{{route('terms')}}" class="base-color">terms & conditions *</a>
-                                <input type="checkbox" name="terms">
+                                <input type="checkbox" name="terms" required="" id="terms">
                                 <span class="checkmark"></span>
                             </label>
                             <input type="hidden" name="terms_helper" value="">
@@ -278,7 +278,7 @@
                         @endif
                     </div>
                     <div class="btn-wrapper">
-                        <button type="button" class="submit-btn" onclick="placeorder()"> place your order </button>
+                        <button type="button" class="submit-btn" onclick="checkoutF()"> place your order </button>
                     </div>
                 </div>
             </div>
@@ -397,6 +397,133 @@
               }
 
             }
+        }
+      });
+    }
+
+    function checkoutF() {
+      
+      if($("#paymentMethod :selected").val() == "1")
+      {
+        if($("#trans_no").val() == "")
+        {
+          alert('Enter the MPESA Confirmation Code');
+          $("#trans_no").focus();
+
+          return false;
+        }
+
+        else if($("#fname").val() == "")
+        {
+          alert('Enter First name');
+           $("#fname").focus();
+
+          return false;
+        }
+        else if($("#lname").val() == "")
+        {
+          alert('Enter Last name');
+           $("#lname").focus();
+
+          return false;
+        }
+        else if($("#address").val() == "")
+        {
+          alert('Enter address');
+           $("#address").focus();
+
+          return false;
+        }
+        else if($("#city").val() == "")
+        {
+          alert('Enter Region');
+           $("#city").focus();
+
+          return false;
+        }
+        else if($("#country :selected").val() == "")
+        {
+          alert('Select county');
+           $("#country").focus();
+
+          return false;
+        }
+        else if(!$('#terms').is(':checked'))
+        {
+          alert('Check terms');
+           $("#terms").focus();
+
+          return false;
+        }
+        
+      }
+
+      var form = document.getElementById('billingDetailsForm');
+      // var fd = new FormData();
+
+      // $.ajaxSetup({
+      //     headers: {
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     }
+      // });
+      $.ajax({
+        url: '{{route('user.checkout.transactionStatus')}}',
+        type: 'GET',
+        data: {trans_no: $("#trans_no").val()},
+        success: function(data) {
+
+            Swal.queue([{
+              title: 'Complete',
+              confirmButtonText: 'Complete',
+              text: 'Click to complete the transaction',
+              showLoaderOnConfirm: true,
+              preConfirm: () => {
+                return $.ajax({
+                            url : '{{route('user.checkout.placeorder')}}',
+                            type: "POST",
+                            data: $('#billingDetailsForm').serialize(),
+
+                            dataType: "JSON",
+                            success: function(data)
+                            {
+                              if(data.error)
+                              {
+                                Swal.fire({
+                                  title: 'Error!',
+                                  text: data.error,
+                                  icon: 'error',
+                                  // closeButtonText: 'No, cancel!',
+                                }
+                                )
+                              }
+                              else if(data.success)
+                              {
+                                  Swal.fire({
+                                  title: 'Success!',
+                                  text: data.success,
+                                  icon: 'success',
+                                  // closeButtonText: 'No, cancel!',
+                                }
+                                ).then((result)=>{
+                                  window.location.href =  '{{ route('user.orders') }}';
+
+                                }
+                                );
+
+                              }
+                                                            },
+                            error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                // alert('Error deleting data');
+                                Swal.fire({
+                                           title: 'Oops...',
+                                            text: 'Error fetching transaction!',
+                                            icon: 'error',
+                                          })
+                            }
+                        }) 
+              }
+            }])
         }
       });
     }

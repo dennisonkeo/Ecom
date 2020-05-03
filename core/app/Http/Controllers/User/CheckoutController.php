@@ -10,6 +10,7 @@ use App\Gateway;
 use App\Coupon;
 use App\Product;
 use App\Orderedproduct;
+use App\TransQuery;
 use App\GeneralSetting as GS;
 use Carbon\Carbon;
 use Auth;
@@ -170,6 +171,23 @@ class CheckoutController extends Controller
         return back();
       }
 
+      //get the transquery
+      $getTransQuery = TransQuery::where('trans_no', $request->input('trans_no'))->where('used',0)->first();
+      if($getTransQuery)
+      {
+        if($getTransQuery->amount < getTotal(Auth::user()->id))
+        {
+            return response()->json(['error'=>'Insufficient amount '.getTotal(Auth::user()->id)]);
+        }
+
+          TransQuery::where('trans_no', $request->input('trans_no'))->update(array('used' => 1));
+
+      }
+      else
+      {
+        return response()->json(['error'=>'MPESA Confirmation Code is invalid']);
+      }
+
       $gs = GS::first();
       // store in order table
       // $in = $request->except('_token', 'coupon_code', 'terms', 'terms_helper');
@@ -306,8 +324,11 @@ class CheckoutController extends Controller
 
 
       if ($request->payment_method == 1) {
-        Session::flash('alert', 'The confirmation code supplied does not exist or is invalid.');
-        return back();
+        // $this->transactionStatus();
+        // Session::flash('alert', 'The confirmation code supplied does not exist or is invalid.');
+        // return back();    
+
+
         // clear coupon from session
         session()->forget('coupon_code');
         // clear cart...
@@ -319,10 +340,13 @@ class CheckoutController extends Controller
         $message = "Your order has been placed successfully! Our agent will contact with you later. <br><strong>Order ID: </strong> " . $order->unique_id ."<p><strong>Order details: </strong><a href='".url('/')."/".$order->id."/orderdetails'>".url('/')."/".$order->id."/orderdetails"."</a></p>";
 
         // send_email( $order->user->email, $order->user->first_name, "Order placed", $message);
+        // send_email( 'dennis.onkeo81@gmail.com', 'Dennis', "Order placed", $message);
         // send_sms( $order->user->phone, $message);
 
-        Session::flash('success', 'Order placed successfully! Our agent will contact with you later.');
-        return redirect()->route('user.orders');
+        // Session::flash('success', 'Order placed successfully! Our agent will contact with you later.');
+        // return redirect()->route('user.orders');
+        return response()->json(['success'=>'Order placed successfully! Our agent will contact you later']);
+
       } elseif ($request->payment_method == 2) {
         // redirect to payment gateway page
         return redirect()->route('user.gateways', $order->id);
@@ -334,5 +358,127 @@ class CheckoutController extends Controller
 
     public function success() {
       return view('user.order_success');
+    }
+
+    public static function generateLiveToken(){
+        
+        try {
+            // $consumer_key = env("MPESA_CONSUMER_KEY");
+            // $consumer_key = config('app.MPESA_CONSUMER_KEY');
+            $consumer_key = 'i5BT9aAm7xUFmo0P47oaedwg9o7pANLG';
+            $consumer_secret = 'mK62M3e2YTp0xBgA';
+        } catch (\Throwable $th) {
+            // $consumer_key = self::env("MPESA_CONSUMER_KEY");
+            $consumer_key = self::config('app.MPESA_CONSUMER_KEY');
+            // $consumer_secret = self::env("MPESA_CONSUMER_SECRET");
+            $consumer_secret = self::config('app.MPESA_CONSUMER_SECRET');
+        }
+
+        if(!isset($consumer_key)||!isset($consumer_secret)){
+            die("please declare the consumer key andHHHHH consumer secret as defined in the documentation");
+        }
+        $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $credentials = base64_encode($consumer_key.':'.$consumer_secret);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials)); //setting a custom header
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $curl_response = curl_exec($curl);
+
+        return json_decode($curl_response)->access_token;
+
+
+    }
+
+    public function transactionStatus(Request $request)
+    {
+        
+        try {
+            $environment = 'live';
+        } catch (\Throwable $th) {
+            $environment = self::env("MPESA_ENV");
+        }
+        
+        if( $environment =="live"){
+            $url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query';
+            $token=self::generateLiveToken();
+        }elseif ($environment=="sandbox"){
+            $url = 'https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query';
+            $token=self::generateSandBoxToken();
+        }else{
+            return json_encode(["Message"=>"invalid application status"]);
+        }
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$token)); //setting custom header
+
+
+        $curl_post_data = array(
+            'Initiator' => 'denno254',
+            'SecurityCredential' => 'gqJ8/xdyk8jSBanBosJwrnw1rClRmYxKqULtgMOhXw77XnbN0xDM32u8gnuJvCBF6Hcir2P9sj9JQCmt2EteHXSw8it8KYmGxHy7mVXijf5tKuG7naiucU6goFv6zNtxRsm8irhyDCnZbai/oNo1vTPaF22lvLl3RFmMKxpILCA7p3s5LMXp/y1z481JqGduXzjQtXCbIX4aBDJK4AO2w6ChD7YS4hgsm7AJlzV1oK7ayCzQAVmg8Z2oySOaqVUrW1MwBfclPRR0Sq9nT+tUEFKURj8SUqk6lKynNX+DqaQHqjnDJLwMpHjmguugxtkhchMJuRYy02S/q3NZTWK59Q==',
+            'CommandID' => 'TransactionStatusQuery',
+            'TransactionID' => $request->input('trans_no'),
+            'PartyA' => '5017631',
+            'IdentifierType' => '4',
+            'ResultURL' => 'https://3d9d07cf.ngrok.io/ecom/api/mpesa-response',
+            'QueueTimeOutURL' => 'https://3d9d07cf.ngrok.io/ecom/api/mpesa-response',
+            'Remarks' => 'Test',
+            'Occasion' => ''
+        );
+
+        $data_string = json_encode($curl_post_data);
+
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $curl_response = curl_exec($curl);
+
+
+        // return $curl_response;
+        return response()->json('0');
+    }
+
+
+    public function mpesa_response(Request $request)
+    {
+
+      // $filename = 'logs.txt';
+      // $content = \File::get($filename);
+
+        $callbackJSONData=file_get_contents('php://input');
+
+        $handle=fopen("assets/transactions.txt", 'w');
+
+        fwrite($handle, $callbackJSONData);
+
+        // $account_no = json_decode($callbackJSONData)->Body->stkCallback->MerchantRequestID;
+
+        $amount = json_decode($callbackJSONData)->Result->ResultParameters->ResultParameter[10]->Value;
+        $transs_no = json_decode($callbackJSONData)->Result->ResultParameters->ResultParameter[12]->Value;
+        $phone = json_decode($callbackJSONData)->Result->ResultParameters->ResultParameter[0]->Value;
+        $ResultCode = json_decode($callbackJSONData)->Result->ResultCode;
+
+        if($ResultCode == "0")
+
+        {
+          $check = TransQuery::where('trans_no', $transs_no)->first();
+          if(!$check)
+          {
+            $op = new TransQuery();
+            $op->user_details = $phone;
+            $op->trans_no = $transs_no;
+            $op->amount = $amount;
+            $op->save();
+          }
+            
+        }
+
+
     }
 }
